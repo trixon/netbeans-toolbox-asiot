@@ -20,6 +20,8 @@ import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import se.trixon.almond.dialogs.FileChooserPanel;
+import se.trixon.almond.dictionary.Dict;
+import se.trixon.almond.icon.Pict;
 import se.trixon.toolbox.core.base.ToolTopComponent;
 
 /**
@@ -31,11 +33,12 @@ import se.trixon.toolbox.core.base.ToolTopComponent;
 )
 @TopComponent.Description(
         preferredID = "AsiotTopComponent",
-        persistenceType = TopComponent.PERSISTENCE_ALWAYS
+        persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
-public final class AsiotTopComponent extends ToolTopComponent implements FileChooserPanel.FileChooserButtonListener {
+public final class AsiotTopComponent extends ToolTopComponent  {
 
+    private static final int ICON_SIZE = TOOLBAR_ICON_SIZE;
     private final AsiotController mController;
 
     public AsiotTopComponent() {
@@ -47,27 +50,9 @@ public final class AsiotTopComponent extends ToolTopComponent implements FileCho
         init();
     }
 
-    @Override
-    public void onFileChooserCancel(FileChooserPanel fileChooserPanel) {
-    }
-
-    @Override
-    public void onFileChooserCheckBoxChange(FileChooserPanel fileChooserPanel, boolean isSelected) {
-    }
-
-    @Override
-    public void onFileChooserDrop(FileChooserPanel fileChooserPanel) {
-    }
-
-    @Override
-    public void onFileChooserOk(FileChooserPanel fileChooserPanel, File file) {
-    }
-
-    @Override
-    public void onFileChooserPreSelect(FileChooserPanel fileChooserPanel) {
-    }
-
     private void init() {
+        startButton.setIcon(Pict.Actions.ARROW_RIGHT.get(ICON_SIZE));
+        startButton.setToolTipText(Dict.START.getString());
     }
 
     /**
@@ -78,19 +63,56 @@ public final class AsiotTopComponent extends ToolTopComponent implements FileCho
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        toolBar = new javax.swing.JToolBar();
+        startButton = new javax.swing.JButton();
+        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
+
+        toolBar.setFloatable(false);
+
+        startButton.setFocusable(false);
+        startButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                startButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(startButton);
+        toolBar.add(filler1);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addComponent(toolBar, javax.swing.GroupLayout.DEFAULT_SIZE, 430, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(toolBar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 292, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
+    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        mLogBuilder = new StringBuilder();
+//        mDestination = new File(destChooserPanel.getPath());
+//
+//        if (mInputOutput != null) {
+//            mInputOutput.closeInputOutput();
+//        }
+//
+//        mInputOutput = IOProvider.getDefault().getIO(mToolName, false);
+//        mInputOutput.select();
+//
+//        appendLog(Toolbox.getDefaultDateFormat().format(Calendar.getInstance().getTime()) + "\n");
+//
+//        Operation operation = new Operation(this, mDestination);
+//        operation.start();
+    }//GEN-LAST:event_startButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.Box.Filler filler1;
+    private javax.swing.JButton startButton;
+    private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
