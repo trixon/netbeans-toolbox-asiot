@@ -19,15 +19,18 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.io.IOException;
 import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import se.trixon.almond.dictionary.Dict;
 import se.trixon.toolbox.asiot.task.Task;
+import se.trixon.toolbox.asiot.task.TaskManager;
 import se.trixon.toolbox.asiot.task.TaskPanel;
 
 /**
@@ -37,7 +40,8 @@ import se.trixon.toolbox.asiot.task.TaskPanel;
 public class TasksPanel extends javax.swing.JPanel {
 
     private final TaskPanel mTaskPanel = new TaskPanel();
-    private final DefaultListModel mModel = new DefaultListModel();
+    private DefaultListModel mModel;
+    private final TaskManager mTaskManager = TaskManager.INSTANCE;
 
     /**
      * Creates new form TasksPanel
@@ -70,6 +74,8 @@ public class TasksPanel extends javax.swing.JPanel {
                 showInvalidTaskDialog();
             }
         }
+
+        save();
     }
 
     public void editTask() {
@@ -96,6 +102,8 @@ public class TasksPanel extends javax.swing.JPanel {
                 }
             }
         }
+
+        save();
     }
 
     public void removeTask() {
@@ -114,6 +122,8 @@ public class TasksPanel extends javax.swing.JPanel {
                 sortModel();
             }
         }
+
+        save();
     }
 
     public void removeAllTasks() {
@@ -131,9 +141,21 @@ public class TasksPanel extends javax.swing.JPanel {
                 mModel.removeAllElements();
             }
         }
+
+        save();
+    }
+
+    private void save() {
+        
+        try {
+            mTaskManager.save();
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     private void init() {
+        mModel = TaskManager.INSTANCE.getModel();
         list.setModel(mModel);
         list.addMouseListener(new MouseAdapter() {
             @Override

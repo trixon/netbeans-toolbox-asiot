@@ -107,6 +107,9 @@
         <Property name="header" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="Dict.DESTINATION.getString()" type="code"/>
         </Property>
+        <Property name="mode" type="int" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+          <Connection code="JFileChooser&#xa;.DIRECTORIES_ONLY" type="code"/>
+        </Property>
       </Properties>
     </Component>
     <Container class="javax.swing.JPanel" name="panel">

@@ -141,20 +141,6 @@ public final class AsiotTopComponent extends ToolTopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        mLogBuilder = new StringBuilder();
-//        mDestination = new File(destChooserPanel.getPath());
-//
-//        if (mInputOutput != null) {
-//            mInputOutput.closeInputOutput();
-//        }
-//
-//        mInputOutput = IOProvider.getDefault().getIO(mToolName, false);
-//        mInputOutput.select();
-//
-//        appendLog(Toolbox.getDefaultDateFormat().format(Calendar.getInstance().getTime()) + "\n");
-//
-//        Operation operation = new Operation(this, mDestination);
-//        operation.start();
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed

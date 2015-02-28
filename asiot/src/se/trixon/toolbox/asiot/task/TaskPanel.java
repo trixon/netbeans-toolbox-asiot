@@ -18,6 +18,7 @@ package se.trixon.toolbox.asiot.task;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import javax.swing.JFileChooser;
 import org.openide.DialogDescriptor;
 import se.trixon.almond.dialogs.FileChooserPanel;
 import se.trixon.almond.dictionary.Dict;
@@ -122,8 +123,10 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
         urlTextField.setText(org.openide.util.NbBundle.getMessage(TaskPanel.class, "TaskPanel.urlTextField.text")); // NOI18N
 
         destinationPanel.setHeader(Dict.DESTINATION.getString());
+        destinationPanel.setMode(JFileChooser
+            .DIRECTORIES_ONLY);
 
-        panel.setLayout(new java.awt.GridLayout());
+        panel.setLayout(new java.awt.GridLayout(1, 0));
 
         basenamePanel.setLayout(new javax.swing.BoxLayout(basenamePanel, javax.swing.BoxLayout.PAGE_AXIS));
 
