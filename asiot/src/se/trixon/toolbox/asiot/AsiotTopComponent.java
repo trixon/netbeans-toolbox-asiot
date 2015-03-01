@@ -15,9 +15,12 @@
  */
 package se.trixon.toolbox.asiot;
 
+import java.io.File;
+import java.io.IOException;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
+import se.trixon.almond.Xlog;
 import se.trixon.almond.dictionary.Dict;
 import se.trixon.almond.icon.Pict;
 import se.trixon.toolbox.asiot.task.Task;
@@ -142,6 +145,31 @@ public final class AsiotTopComponent extends ToolTopComponent {
     }// </editor-fold>//GEN-END:initComponents
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
+        Downloader downloader = new Downloader(tasksPanel.getSelectedTask());
+        downloader.setDownloadListener(new Downloader.DownloadListener() {
+
+            @Override
+            public void onDownloadFailed(Task task, IOException ex) {
+                Xlog.v(this.getClass(), "onDownloadFailed");
+                Xlog.v(this.getClass(), " -" + task.getName());
+                Xlog.v(this.getClass(), " -" + ex.getLocalizedMessage());
+            }
+
+            @Override
+            public void onDownloadFinished(Task task, File destFile) {
+                Xlog.v(this.getClass(), "onDownloadFinished");
+                Xlog.v(this.getClass(), " -" + task.getName());
+                Xlog.v(this.getClass(), " -" + destFile.getAbsolutePath());
+            }
+
+            @Override
+            public void onDownloadStarted(Task task) {
+                Xlog.v(this.getClass(), "onDownloadStarted");
+                Xlog.v(this.getClass(), " -" + task.getName());
+            }
+        });
+        
+        downloader.download();
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed

@@ -144,7 +144,7 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
 
         destinationPanel.setHeader(Dict.DESTINATION.getString());
         destinationPanel.setMode(JFileChooser
-            .DIRECTORIES_ONLY);
+            .FILES_ONLY);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
