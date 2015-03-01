@@ -20,7 +20,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.io.IOException;
-import java.util.Arrays;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
 import org.openide.DialogDescriptor;
@@ -51,9 +50,20 @@ public class TasksPanel extends javax.swing.JPanel {
         init();
     }
 
-    public void addTask() {
-        mTaskPanel.setTask(new Task());
-        DialogDescriptor d = new DialogDescriptor(mTaskPanel, Dict.ADD.getString(), true, new ActionListener() {
+    public void editTask(Task task) {
+        boolean addTask = false;
+        String title;
+
+        if (task == null) {
+            addTask = true;
+            title = Dict.ADD.getString();
+            task = new Task();
+        } else {
+            title = Dict.EDIT.getString();
+        }
+
+        mTaskPanel.setTask(task);
+        DialogDescriptor d = new DialogDescriptor(mTaskPanel, title, true, new ActionListener() {
 
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -61,49 +71,29 @@ public class TasksPanel extends javax.swing.JPanel {
         });
         d.setAdditionalOptions(new JButton[]{new JButton(Dict.VERIFY.getString())});
         mTaskPanel.setDialogDescriptor(d);
-
         Object retval = DialogDisplayer.getDefault().notify(d);
 
         if (retval == NotifyDescriptor.OK_OPTION) {
-            if (mTaskPanel.getTask().isValid()) {
-                Task task = mTaskPanel.getTask();
-                mModel.addElement(task);
-                sortModel();
-                list.setSelectedValue(task, true);
+            Task editedTask = mTaskPanel.getTask();
+            if (editedTask.isValid()) {
+                if (addTask) {
+                    mModel.addElement(editedTask);
+                } else {
+                    mModel.set(mModel.indexOf(task), editedTask);
+                }
+
+                mTaskManager.sortModel();
+                save();
+                list.setSelectedValue(editedTask, true);
             } else {
                 showInvalidTaskDialog();
+                editTask(editedTask);
             }
         }
-
-        save();
     }
 
-    public void editTask() {
-        if (getSelectedTask() != null) {
-            mTaskPanel.setTask(getSelectedTask());
-            DialogDescriptor d = new DialogDescriptor(mTaskPanel, Dict.EDIT.getString(), true, new ActionListener() {
-
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                }
-            });
-            d.setAdditionalOptions(new JButton[]{new JButton(Dict.VERIFY.getString())});
-            mTaskPanel.setDialogDescriptor(d);
-            Object retval = DialogDisplayer.getDefault().notify(d);
-
-            if (retval == NotifyDescriptor.OK_OPTION) {
-                Task task = mTaskPanel.getTask();
-                if (task.isValid()) {
-                    mModel.set(mModel.indexOf(getSelectedTask()), task);
-                    sortModel();
-                    list.setSelectedValue(task, true);
-                } else {
-                    showInvalidTaskDialog();
-                }
-            }
-        }
-
-        save();
+    public Task getSelectedTask() {
+        return (Task) list.getSelectedValue();
     }
 
     public void removeTask() {
@@ -119,7 +109,6 @@ public class TasksPanel extends javax.swing.JPanel {
 
             if (retval == NotifyDescriptor.OK_OPTION) {
                 mModel.removeElement(getSelectedTask());
-                sortModel();
             }
         }
 
@@ -145,15 +134,6 @@ public class TasksPanel extends javax.swing.JPanel {
         save();
     }
 
-    private void save() {
-        
-        try {
-            mTaskManager.save();
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
-    }
-
     private void init() {
         mModel = TaskManager.INSTANCE.getModel();
         list.setModel(mModel);
@@ -161,23 +141,17 @@ public class TasksPanel extends javax.swing.JPanel {
             @Override
             public void mouseClicked(MouseEvent evt) {
                 if (evt.getButton() == MouseEvent.BUTTON1 && evt.getClickCount() == 2) {
-                    editTask();
+                    editTask(getSelectedTask());
                 }
             }
         });
     }
 
-    private Task getSelectedTask() {
-        return (Task) list.getSelectedValue();
-    }
-
-    public void sortModel() {
-        Object[] objects = mModel.toArray();
-        Arrays.sort(objects);
-        mModel.clear();
-
-        for (Object object : objects) {
-            mModel.addElement(object);
+    private void save() {
+        try {
+            mTaskManager.save();
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
         }
     }
 

@@ -20,6 +20,7 @@ import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import se.trixon.almond.dictionary.Dict;
 import se.trixon.almond.icon.Pict;
+import se.trixon.toolbox.asiot.task.Task;
 import se.trixon.toolbox.core.base.ToolTopComponent;
 
 /**
@@ -144,11 +145,14 @@ public final class AsiotTopComponent extends ToolTopComponent {
     }//GEN-LAST:event_startButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
-        tasksPanel.addTask();
+        tasksPanel.editTask(null);
     }//GEN-LAST:event_addButtonActionPerformed
 
     private void editButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_editButtonActionPerformed
-        tasksPanel.editTask();
+        Task task = tasksPanel.getSelectedTask();
+        if (task != null) {
+            tasksPanel.editTask(task);
+        }
     }//GEN-LAST:event_editButtonActionPerformed
 
     private void removeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_removeButtonActionPerformed

@@ -17,6 +17,7 @@ package se.trixon.toolbox.asiot.task;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.prefs.Preferences;
 import javax.swing.DefaultListModel;
@@ -70,10 +71,6 @@ public enum TaskManager {
         return exists;
     }
 
-    public Object[] getArray() {
-        return mModel.toArray();
-    }
-
     public DefaultListModel getModel() {
         return mModel;
     }
@@ -119,9 +116,17 @@ public enum TaskManager {
         mPreferences.put(tag, jsonString);
     }
 
-    private DefaultListModel jsonArrayToModel(JSONArray array) {
-        DefaultListModel model = new DefaultListModel();
+    public void sortModel() {
+        Object[] objects = mModel.toArray();
+        Arrays.sort(objects);
+        mModel.clear();
+        
+        for (Object object : objects) {
+            mModel.addElement(object);
+        }
+    }
 
+    private void jsonArrayToModel(JSONArray array) {
         for (Object arrayItem : array) {
             JSONObject object = (JSONObject) arrayItem;
 
@@ -135,10 +140,10 @@ public enum TaskManager {
             task.setDatePattern((String) object.get(KEY_DATE_PATTERN));
             task.setActive((boolean) object.get(KEY_ACTIVE));
 
-            model.addElement(task);
+            mModel.addElement(task);
         }
-
-        return model;
+        
+        sortModel();
     }
 
     private JSONArray modelToJsonArray() {
