@@ -20,6 +20,8 @@ import java.awt.event.ActionListener;
 import org.openide.awt.ActionID;
 import org.openide.awt.ActionReference;
 import org.openide.awt.ActionRegistration;
+import org.openide.windows.TopComponent;
+import org.openide.windows.WindowManager;
 
 @ActionID(
         category = "Tools",
@@ -33,7 +35,7 @@ public final class AsiotAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        AsiotTopComponent topComponent = new AsiotTopComponent();
+        TopComponent topComponent = WindowManager.getDefault().findTopComponent("AsiotTopComponent");
         topComponent.open();
         topComponent.requestActive();
     }
