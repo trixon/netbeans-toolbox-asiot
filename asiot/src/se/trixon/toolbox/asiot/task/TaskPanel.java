@@ -96,6 +96,13 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        panel = new javax.swing.JPanel();
+        basenamePanel = new javax.swing.JPanel();
+        basenameLabel = new javax.swing.JLabel();
+        basenameTextField = new javax.swing.JTextField();
+        datePatternPanel = new javax.swing.JPanel();
+        datePatternLabel = new javax.swing.JLabel();
+        datePatternTextField = new javax.swing.JTextField();
         activeCheckBox = new javax.swing.JCheckBox();
         nameLabel = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
@@ -104,27 +111,6 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
         urlLabel = new javax.swing.JLabel();
         urlTextField = new javax.swing.JTextField();
         destinationPanel = new se.trixon.almond.dialogs.FileChooserPanel();
-        panel = new javax.swing.JPanel();
-        basenamePanel = new javax.swing.JPanel();
-        basenameLabel = new javax.swing.JLabel();
-        basenameTextField = new javax.swing.JTextField();
-        datePatternPanel = new javax.swing.JPanel();
-        datePatternLabel = new javax.swing.JLabel();
-        datePatternTextField = new javax.swing.JTextField();
-
-        org.openide.awt.Mnemonics.setLocalizedText(activeCheckBox, Dict.ACTIVE.getString());
-
-        org.openide.awt.Mnemonics.setLocalizedText(nameLabel, Dict.NAME.getString());
-
-        org.openide.awt.Mnemonics.setLocalizedText(descriptionLabel, Dict.DESCRIPTION.getString());
-
-        org.openide.awt.Mnemonics.setLocalizedText(urlLabel, "URL"); // NOI18N
-
-        urlTextField.setText(org.openide.util.NbBundle.getMessage(TaskPanel.class, "TaskPanel.urlTextField.text")); // NOI18N
-
-        destinationPanel.setHeader(Dict.DESTINATION.getString());
-        destinationPanel.setMode(JFileChooser
-            .DIRECTORIES_ONLY);
 
         panel.setLayout(new java.awt.GridLayout(1, 0));
 
@@ -146,6 +132,20 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
 
         panel.add(datePatternPanel);
 
+        org.openide.awt.Mnemonics.setLocalizedText(activeCheckBox, Dict.ACTIVE.getString());
+
+        org.openide.awt.Mnemonics.setLocalizedText(nameLabel, Dict.NAME.getString());
+
+        org.openide.awt.Mnemonics.setLocalizedText(descriptionLabel, Dict.DESCRIPTION.getString());
+
+        org.openide.awt.Mnemonics.setLocalizedText(urlLabel, "URL"); // NOI18N
+
+        urlTextField.setText(org.openide.util.NbBundle.getMessage(TaskPanel.class, "TaskPanel.urlTextField.text")); // NOI18N
+
+        destinationPanel.setHeader(Dict.DESTINATION.getString());
+        destinationPanel.setMode(JFileChooser
+            .DIRECTORIES_ONLY);
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
@@ -155,7 +155,6 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(nameTextField)
                     .addComponent(descriptionTextField)
-                    .addComponent(panel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(destinationPanel, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                     .addComponent(urlTextField)
                     .addGroup(layout.createSequentialGroup()
@@ -184,8 +183,6 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
                 .addComponent(urlTextField, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(destinationPanel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(activeCheckBox)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))

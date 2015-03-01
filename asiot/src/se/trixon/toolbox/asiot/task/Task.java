@@ -71,7 +71,7 @@ public class Task implements Comparable<Task> {
     }
 
     public boolean isValid() {
-        return !getName().isEmpty();
+        return !getName().isEmpty() && !getUrl().isEmpty() && !getDestination().isEmpty();
     }
 
     public void setActive(boolean active) {

@@ -1,6 +1,57 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
 <Form version="1.5" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JPanelFormInfo">
+  <NonVisualComponents>
+    <Container class="javax.swing.JPanel" name="panel">
+
+      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
+        <Property name="columns" type="int" value="0"/>
+        <Property name="rows" type="int" value="1"/>
+      </Layout>
+      <SubComponents>
+        <Container class="javax.swing.JPanel" name="basenamePanel">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
+            <Property name="axis" type="int" value="3"/>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="basenameLabel">
+              <Properties>
+                <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="basenameTextField"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Dict.BASENAME.getString()" type="code"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="basenameTextField">
+            </Component>
+          </SubComponents>
+        </Container>
+        <Container class="javax.swing.JPanel" name="datePatternPanel">
+
+          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
+            <Property name="axis" type="int" value="3"/>
+          </Layout>
+          <SubComponents>
+            <Component class="javax.swing.JLabel" name="datePatternLabel">
+              <Properties>
+                <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
+                  <ComponentRef name="datePatternTextField"/>
+                </Property>
+                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="Dict.DATE_PATTERN.getString()" type="code"/>
+                </Property>
+              </Properties>
+            </Component>
+            <Component class="javax.swing.JTextField" name="datePatternTextField">
+            </Component>
+          </SubComponents>
+        </Container>
+      </SubComponents>
+    </Container>
+  </NonVisualComponents>
   <AuxValues>
     <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="1"/>
     <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
@@ -21,7 +72,6 @@
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="nameTextField" alignment="0" max="32767" attributes="0"/>
                   <Component id="descriptionTextField" alignment="0" max="32767" attributes="0"/>
-                  <Component id="panel" alignment="0" max="32767" attributes="0"/>
                   <Component id="destinationPanel" alignment="1" pref="388" max="32767" attributes="0"/>
                   <Component id="urlTextField" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" attributes="0">
@@ -55,8 +105,6 @@
               <Component id="urlTextField" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="destinationPanel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace max="-2" attributes="0"/>
-              <Component id="panel" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
               <Component id="activeCheckBox" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
@@ -112,54 +160,5 @@
         </Property>
       </Properties>
     </Component>
-    <Container class="javax.swing.JPanel" name="panel">
-
-      <Layout class="org.netbeans.modules.form.compat2.layouts.DesignGridLayout">
-        <Property name="columns" type="int" value="0"/>
-        <Property name="rows" type="int" value="1"/>
-      </Layout>
-      <SubComponents>
-        <Container class="javax.swing.JPanel" name="basenamePanel">
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
-            <Property name="axis" type="int" value="3"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="basenameLabel">
-              <Properties>
-                <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="basenameTextField"/>
-                </Property>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="Dict.BASENAME.getString()" type="code"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="basenameTextField">
-            </Component>
-          </SubComponents>
-        </Container>
-        <Container class="javax.swing.JPanel" name="datePatternPanel">
-
-          <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout">
-            <Property name="axis" type="int" value="3"/>
-          </Layout>
-          <SubComponents>
-            <Component class="javax.swing.JLabel" name="datePatternLabel">
-              <Properties>
-                <Property name="labelFor" type="java.awt.Component" editor="org.netbeans.modules.form.ComponentChooserEditor">
-                  <ComponentRef name="datePatternTextField"/>
-                </Property>
-                <Property name="text" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="Dict.DATE_PATTERN.getString()" type="code"/>
-                </Property>
-              </Properties>
-            </Component>
-            <Component class="javax.swing.JTextField" name="datePatternTextField">
-            </Component>
-          </SubComponents>
-        </Container>
-      </SubComponents>
-    </Container>
   </SubComponents>
 </Form>
