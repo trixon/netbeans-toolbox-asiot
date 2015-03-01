@@ -108,15 +108,15 @@ public class Task implements Comparable<Task> {
 
     @Override
     public String toString() {
-        String description = "";
-
-        try {
-            description = mDescription.split("\\n")[0];
-        } catch (Exception e) {
-            // nvm
+        String fmt;
+        
+        if (mActive) {
+            fmt="<html><b>%s</b><br />%s</html>";
+        } else {
+            fmt="<html><i>%s<br />%s</i></html>";
         }
 
-        return String.format("<html><b>%s</b><br /><i>%s</i></html>", mName, description);
+        return String.format(fmt, mName, mDescription);
     }
 
 }
