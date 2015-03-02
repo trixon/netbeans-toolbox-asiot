@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.trixon.toolbox.asiot.task;
+package se.trixon.toolbox.idiot.task;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -26,7 +26,7 @@ import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
 import org.openide.util.NbPreferences;
-import se.trixon.toolbox.asiot.Options;
+import se.trixon.toolbox.idiot.Options;
 import se.trixon.toolbox.core.JsonHelper;
 
 /**

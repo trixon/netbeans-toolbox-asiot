@@ -102,14 +102,14 @@
         </Component>
       </SubComponents>
     </Container>
-    <Component class="se.trixon.toolbox.asiot.TasksPanel" name="tasksPanel">
+    <Component class="se.trixon.toolbox.idiot.TasksPanel" name="tasksPanel">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="Before"/>
         </Constraint>
       </Constraints>
     </Component>
-    <Component class="se.trixon.toolbox.asiot.PreviewPanel" name="previewPanel">
+    <Component class="se.trixon.toolbox.idiot.PreviewPanel" name="previewPanel">
       <Constraints>
         <Constraint layoutClass="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout" value="org.netbeans.modules.form.compat2.layouts.DesignBorderLayout$BorderConstraintsDescription">
           <BorderConstraints direction="Center"/>

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.trixon.toolbox.asiot;
+package se.trixon.toolbox.idiot;
 
 import java.io.File;
 import java.io.IOException;
@@ -23,32 +23,32 @@ import org.openide.windows.TopComponent;
 import se.trixon.almond.Xlog;
 import se.trixon.almond.dictionary.Dict;
 import se.trixon.almond.icon.Pict;
-import se.trixon.toolbox.asiot.task.Task;
+import se.trixon.toolbox.idiot.task.Task;
 import se.trixon.toolbox.core.base.ToolTopComponent;
 
 /**
  * Top component which displays something.
  */
 @ConvertAsProperties(
-        dtd = "-//se.trixon.toolbox.asiot//Asiot//EN",
+        dtd = "-//se.trixon.toolbox.idiot//Idiot//EN",
         autostore = false
 )
 @TopComponent.Description(
-        preferredID = "AsiotTopComponent",
+        preferredID = "IdiotTopComponent",
         persistenceType = TopComponent.PERSISTENCE_NEVER
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
-public final class AsiotTopComponent extends ToolTopComponent {
+public final class IdiotTopComponent extends ToolTopComponent {
 
     private static final int ICON_SIZE = TOOLBAR_ICON_SIZE;
-    private final AsiotController mController;
+    private final IdiotController mController;
 
-    public AsiotTopComponent() {
-        mBundle = NbBundle.getBundle(AsiotTopComponent.class);
+    public IdiotTopComponent() {
+        mBundle = NbBundle.getBundle(IdiotTopComponent.class);
         mToolName = mBundle.getString("Tool-Name");
         initComponents();
         setName(mToolName);
-        mController = new AsiotController(this);
+        mController = new IdiotController(this);
         init();
     }
 
@@ -78,8 +78,8 @@ public final class AsiotTopComponent extends ToolTopComponent {
         removeButton = new javax.swing.JButton();
         removeAllButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
-        tasksPanel = new se.trixon.toolbox.asiot.TasksPanel();
-        previewPanel = new se.trixon.toolbox.asiot.PreviewPanel();
+        tasksPanel = new se.trixon.toolbox.idiot.TasksPanel();
+        previewPanel = new se.trixon.toolbox.idiot.PreviewPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -196,11 +196,11 @@ public final class AsiotTopComponent extends ToolTopComponent {
     private javax.swing.JButton editButton;
     private javax.swing.Box.Filler filler1;
     private javax.swing.JToolBar.Separator jSeparator1;
-    private se.trixon.toolbox.asiot.PreviewPanel previewPanel;
+    private se.trixon.toolbox.idiot.PreviewPanel previewPanel;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton startButton;
-    private se.trixon.toolbox.asiot.TasksPanel tasksPanel;
+    private se.trixon.toolbox.idiot.TasksPanel tasksPanel;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
     @Override

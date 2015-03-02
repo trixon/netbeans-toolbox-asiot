@@ -13,12 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.trixon.toolbox.asiot;
+package se.trixon.toolbox.idiot;
 
 import java.io.IOException;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
-import se.trixon.toolbox.asiot.task.TaskManager;
+import se.trixon.toolbox.idiot.task.TaskManager;
 
 /**
  *

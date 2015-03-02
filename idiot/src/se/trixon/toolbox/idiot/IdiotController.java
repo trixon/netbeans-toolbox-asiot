@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.trixon.toolbox.asiot;
+package se.trixon.toolbox.idiot;
 
 import java.util.ResourceBundle;
 import org.openide.util.lookup.ServiceProvider;
@@ -31,14 +31,14 @@ import se.trixon.almond.news.NewsProvider;
     @ServiceProvider(service = ToolProvider.class),
     @ServiceProvider(service = NewsProvider.class)}
 )
-public class AsiotController extends ToolController {
+public class IdiotController extends ToolController {
 
-    public static final String LOG_TAG = "Asiot";
+    public static final String LOG_TAG = "Idiot";
 
-    public AsiotController() {
+    public IdiotController() {
     }
 
-    public AsiotController(ToolTopComponent toolTopComponent) {
+    public IdiotController(ToolTopComponent toolTopComponent) {
         super(toolTopComponent);
     }
 

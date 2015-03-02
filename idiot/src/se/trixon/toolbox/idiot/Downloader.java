@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.trixon.toolbox.asiot;
+package se.trixon.toolbox.idiot;
 
 import java.io.File;
 import java.io.IOException;
@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import se.trixon.toolbox.asiot.task.Task;
+import se.trixon.toolbox.idiot.task.Task;
 
 /**
  *

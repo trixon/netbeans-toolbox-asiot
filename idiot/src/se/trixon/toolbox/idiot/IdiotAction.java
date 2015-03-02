@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package se.trixon.toolbox.asiot;
+package se.trixon.toolbox.idiot;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,17 +25,17 @@ import org.openide.windows.WindowManager;
 
 @ActionID(
         category = "Tools",
-        id = "se.trixon.toolbox.asiot.AsiotAction"
+        id = "se.trixon.toolbox.idiot.IdiotAction"
 )
 @ActionRegistration(
         displayName = "#Tool-NameAction"
 )
 @ActionReference(path = "Menu/Tools", position = 0)
-public final class AsiotAction implements ActionListener {
+public final class IdiotAction implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        TopComponent topComponent = WindowManager.getDefault().findTopComponent("AsiotTopComponent");
+        TopComponent topComponent = WindowManager.getDefault().findTopComponent("IdiotTopComponent");
         topComponent.open();
         topComponent.requestActive();
     }
