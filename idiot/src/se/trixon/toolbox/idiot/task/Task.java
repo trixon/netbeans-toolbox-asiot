@@ -22,8 +22,7 @@ package se.trixon.toolbox.idiot.task;
 public class Task implements Comparable<Task> {
 
     private boolean mActive = true;
-    private String mBasename;
-    private String mDatePattern;
+    private String mCron;
     private String mDescription;
     private String mDestination;
     private long mId = System.currentTimeMillis();
@@ -38,12 +37,8 @@ public class Task implements Comparable<Task> {
         return mName.compareTo(o.getName());
     }
 
-    public String getBasename() {
-        return mBasename;
-    }
-
-    public String getDatePattern() {
-        return mDatePattern;
+    public String getCron() {
+        return mCron;
     }
 
     public String getDescription() {
@@ -78,13 +73,10 @@ public class Task implements Comparable<Task> {
         mActive = active;
     }
 
-    public void setBasename(String basename) {
-        mBasename = basename;
+    public void setCron(String cron) {
+        mCron = cron;
     }
 
-    public void setDatePattern(String datePattern) {
-        mDatePattern = datePattern;
-    }
 
     public void setDescription(String description) {
         mDescription = description;

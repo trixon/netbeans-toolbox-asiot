@@ -16,11 +16,13 @@
 package se.trixon.toolbox.idiot.task;
 
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.io.File;
 import javax.swing.JFileChooser;
 import org.openide.DialogDescriptor;
+import org.openide.DialogDisplayer;
+import org.openide.NotifyDescriptor;
 import se.trixon.almond.dialogs.FileChooserPanel;
+import se.trixon.almond.dialogs.cron.CronPanel;
 import se.trixon.almond.dictionary.Dict;
 
 /**
@@ -66,19 +68,19 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
 
     public void setDialogDescriptor(DialogDescriptor dialogDescriptor) {
         mDialogDescriptor = dialogDescriptor;
-        mDialogDescriptor.setButtonListener(new ActionListener() {
+        mDialogDescriptor.setButtonListener((ActionEvent e) -> {
+            Object[] addditionalOptions = mDialogDescriptor.getAdditionalOptions();
 
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Object[] addditionalOptions = mDialogDescriptor.getAdditionalOptions();
+            if (e.getSource() == addditionalOptions[0]) {
+                CronPanel cronPanel = new CronPanel();
+                cronPanel.setCronString(mTask.getCron());
+                DialogDescriptor d = new DialogDescriptor(cronPanel, Dict.SCHEDULE.getString());
+                Object retval = DialogDisplayer.getDefault().notify(d);
 
-                if (e.getSource() == addditionalOptions[0]) {
-//                    mTaskVerifier = new TaskVerifier();
-                    saveTask();
-//                    mTaskVerifier.verify(mTask);
+                if (retval == NotifyDescriptor.OK_OPTION) {
+                    mTask.setCron(cronPanel.getCronString());
                 }
             }
-
         });
     }
 
@@ -96,13 +98,6 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        panel = new javax.swing.JPanel();
-        basenamePanel = new javax.swing.JPanel();
-        basenameLabel = new javax.swing.JLabel();
-        basenameTextField = new javax.swing.JTextField();
-        datePatternPanel = new javax.swing.JPanel();
-        datePatternLabel = new javax.swing.JLabel();
-        datePatternTextField = new javax.swing.JTextField();
         activeCheckBox = new javax.swing.JCheckBox();
         nameLabel = new javax.swing.JLabel();
         nameTextField = new javax.swing.JTextField();
@@ -111,26 +106,6 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
         urlLabel = new javax.swing.JLabel();
         urlTextField = new javax.swing.JTextField();
         destinationPanel = new se.trixon.almond.dialogs.FileChooserPanel();
-
-        panel.setLayout(new java.awt.GridLayout(1, 0));
-
-        basenamePanel.setLayout(new javax.swing.BoxLayout(basenamePanel, javax.swing.BoxLayout.PAGE_AXIS));
-
-        basenameLabel.setLabelFor(basenameTextField);
-        org.openide.awt.Mnemonics.setLocalizedText(basenameLabel, Dict.BASENAME.getString());
-        basenamePanel.add(basenameLabel);
-        basenamePanel.add(basenameTextField);
-
-        panel.add(basenamePanel);
-
-        datePatternPanel.setLayout(new javax.swing.BoxLayout(datePatternPanel, javax.swing.BoxLayout.PAGE_AXIS));
-
-        datePatternLabel.setLabelFor(datePatternTextField);
-        org.openide.awt.Mnemonics.setLocalizedText(datePatternLabel, Dict.DATE_PATTERN.getString());
-        datePatternPanel.add(datePatternLabel);
-        datePatternPanel.add(datePatternTextField);
-
-        panel.add(datePatternPanel);
 
         org.openide.awt.Mnemonics.setLocalizedText(activeCheckBox, Dict.ACTIVE.getString());
 
@@ -192,18 +167,11 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox activeCheckBox;
-    private javax.swing.JLabel basenameLabel;
-    private javax.swing.JPanel basenamePanel;
-    private javax.swing.JTextField basenameTextField;
-    private javax.swing.JLabel datePatternLabel;
-    private javax.swing.JPanel datePatternPanel;
-    private javax.swing.JTextField datePatternTextField;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
     private se.trixon.almond.dialogs.FileChooserPanel destinationPanel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
-    private javax.swing.JPanel panel;
     private javax.swing.JLabel urlLabel;
     private javax.swing.JTextField urlTextField;
     // End of variables declaration//GEN-END:variables
@@ -214,8 +182,6 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
         descriptionTextField.setText(mTask.getDescription());
         urlTextField.setText(mTask.getUrl());
         destinationPanel.setPath(mTask.getDestination());
-        basenameTextField.setText(mTask.getBasename());
-        datePatternTextField.setText(mTask.getDatePattern());
     }
 
     private void saveTask() {
@@ -224,7 +190,5 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
         mTask.setDescription(descriptionTextField.getText());
         mTask.setUrl(urlTextField.getText());
         mTask.setDestination(destinationPanel.getPath());
-        mTask.setBasename(basenameTextField.getText());
-        mTask.setDatePattern(datePatternTextField.getText());
     }
 }

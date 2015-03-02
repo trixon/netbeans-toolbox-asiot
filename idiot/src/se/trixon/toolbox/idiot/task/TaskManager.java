@@ -37,8 +37,7 @@ public enum TaskManager {
 
     INSTANCE;
     private static final String KEY_ACTIVE = "active";
-    private static final String KEY_BASENAME = "basename";
-    private static final String KEY_DATE_PATTERN = "date_pattern";
+    private static final String KEY_CRON = "cron";
     private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_DESTINATION = "destination";
     private static final String KEY_ID = "id";
@@ -136,8 +135,7 @@ public enum TaskManager {
             task.setDescription((String) object.get(KEY_DESCRIPTION));
             task.setUrl((String) object.get(KEY_URL));
             task.setDestination((String) object.get(KEY_DESTINATION));
-            task.setBasename((String) object.get(KEY_BASENAME));
-            task.setDatePattern((String) object.get(KEY_DATE_PATTERN));
+            task.setCron((String) object.get(KEY_CRON));
             task.setActive((boolean) object.get(KEY_ACTIVE));
 
             mModel.addElement(task);
@@ -158,8 +156,7 @@ public enum TaskManager {
             object.put(KEY_DESCRIPTION, task.getDescription());
             object.put(KEY_URL, task.getUrl());
             object.put(KEY_DESTINATION, task.getDestination());
-            object.put(KEY_BASENAME, task.getBasename());
-            object.put(KEY_DATE_PATTERN, task.getDatePattern());
+            object.put(KEY_CRON, task.getCron());
             object.put(KEY_ACTIVE, task.isActive());
 
             array.add(object);

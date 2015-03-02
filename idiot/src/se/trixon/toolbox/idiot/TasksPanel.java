@@ -69,7 +69,7 @@ public class TasksPanel extends javax.swing.JPanel {
             public void actionPerformed(ActionEvent e) {
             }
         });
-        d.setAdditionalOptions(new JButton[]{new JButton(Dict.VERIFY.getString())});
+        d.setAdditionalOptions(new JButton[]{new JButton(Dict.SCHEDULE.getString())});
         mTaskPanel.setDialogDescriptor(d);
         Object retval = DialogDisplayer.getDefault().notify(d);
 
