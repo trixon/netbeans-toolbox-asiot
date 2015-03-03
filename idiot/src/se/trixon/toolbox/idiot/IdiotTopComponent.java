@@ -40,7 +40,7 @@ import se.trixon.toolbox.core.base.ToolTopComponent;
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
 public final class IdiotTopComponent extends ToolTopComponent {
 
-    private static final int ICON_SIZE = TOOLBAR_ICON_SIZE;
+    public static final int ICON_SIZE = TOOLBAR_ICON_SIZE;
     private final IdiotController mController;
 
     public IdiotTopComponent() {
@@ -79,7 +79,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         removeAllButton = new javax.swing.JButton();
         filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         tasksPanel = new se.trixon.toolbox.idiot.TasksPanel();
-        previewPanel = new se.trixon.toolbox.idiot.PreviewPanel();
+        imageViewPanel1 = new se.trixon.almond.imageviewer.ImageViewPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -140,8 +140,11 @@ public final class IdiotTopComponent extends ToolTopComponent {
         toolBar.add(filler1);
 
         add(toolBar, java.awt.BorderLayout.PAGE_START);
+
+        tasksPanel.setMinimumSize(new java.awt.Dimension(400, 25));
+        tasksPanel.setPreferredSize(new java.awt.Dimension(400, 300));
         add(tasksPanel, java.awt.BorderLayout.LINE_START);
-        add(previewPanel, java.awt.BorderLayout.CENTER);
+        add(imageViewPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
@@ -195,8 +198,8 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private javax.swing.JButton addButton;
     private javax.swing.JButton editButton;
     private javax.swing.Box.Filler filler1;
+    private se.trixon.almond.imageviewer.ImageViewPanel imageViewPanel1;
     private javax.swing.JToolBar.Separator jSeparator1;
-    private se.trixon.toolbox.idiot.PreviewPanel previewPanel;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
     private javax.swing.JButton startButton;
