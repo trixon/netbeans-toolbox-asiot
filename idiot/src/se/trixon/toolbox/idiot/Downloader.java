@@ -50,7 +50,7 @@ public class Downloader {
             try {
                 URL url = new URL(mTask.getUrl());
                 File destFile = getDestPath();
-                FileUtils.copyURLToFile(url, destFile, 5000, 5000);
+                FileUtils.copyURLToFile(url, destFile, 15000, 15000);
                 mDownloadListener.onDownloadFinished(mTask, destFile);
             } catch (IOException ex) {
                 mDownloadListener.onDownloadFailed(mTask, ex);
