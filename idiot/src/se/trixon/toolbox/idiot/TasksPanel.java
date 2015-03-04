@@ -186,8 +186,7 @@ public class TasksPanel extends javax.swing.JPanel {
         scrollPane = new javax.swing.JScrollPane();
         list = new javax.swing.JList();
 
-        scrollPane.setMinimumSize(new java.awt.Dimension(300, 25));
-        scrollPane.setPreferredSize(new java.awt.Dimension(200, 158));
+        setMinimumSize(new java.awt.Dimension(300, 0));
 
         list.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         scrollPane.setViewportView(list);
@@ -196,7 +195,7 @@ public class TasksPanel extends javax.swing.JPanel {
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(scrollPane, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(scrollPane)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

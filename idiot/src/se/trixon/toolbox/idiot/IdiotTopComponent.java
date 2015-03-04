@@ -127,6 +127,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         removeAllButton = new javax.swing.JButton();
+        splitPanel = new javax.swing.JSplitPane();
         tasksPanel = new se.trixon.toolbox.idiot.TasksPanel();
         imageViewPanel1 = new se.trixon.almond.imageviewer.ImageViewPanel();
 
@@ -206,10 +207,10 @@ public final class IdiotTopComponent extends ToolTopComponent {
 
         add(toolBar, java.awt.BorderLayout.PAGE_START);
 
-        tasksPanel.setMinimumSize(new java.awt.Dimension(400, 25));
-        tasksPanel.setPreferredSize(new java.awt.Dimension(400, 300));
-        add(tasksPanel, java.awt.BorderLayout.LINE_START);
-        add(imageViewPanel1, java.awt.BorderLayout.CENTER);
+        splitPanel.setLeftComponent(tasksPanel);
+        splitPanel.setRightComponent(imageViewPanel1);
+
+        add(splitPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
@@ -286,6 +287,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private javax.swing.JButton openDirectoryButton;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
+    private javax.swing.JSplitPane splitPanel;
     private se.trixon.toolbox.idiot.TasksPanel tasksPanel;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
