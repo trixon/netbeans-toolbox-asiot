@@ -15,6 +15,7 @@
  */
 package se.trixon.toolbox.idiot.task;
 
+import it.sauronsoftware.cron4j.Scheduler;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
@@ -49,6 +50,7 @@ public enum TaskManager {
 
     private final DefaultListModel mModel = new DefaultListModel<>();
     private final Preferences mPreferences;
+    private Scheduler mScheduler = new Scheduler();
 
     private int mVersion;
 
@@ -119,10 +121,27 @@ public enum TaskManager {
         Object[] objects = mModel.toArray();
         Arrays.sort(objects);
         mModel.clear();
-        
+
         for (Object object : objects) {
             mModel.addElement(object);
         }
+    }
+
+    public void start() {
+        mScheduler = new Scheduler();
+        Task[] tasks = Arrays.copyOf(mModel.toArray(), mModel.toArray().length, Task[].class);
+
+        for (Task task : tasks) {
+            if (task.isActive()) {
+                mScheduler.schedule(task.getCron(), task);
+            }
+        }
+
+        mScheduler.start();
+    }
+
+    public void stop() {
+        mScheduler.stop();
     }
 
     private void jsonArrayToModel(JSONArray array) {
@@ -140,7 +159,7 @@ public enum TaskManager {
 
             mModel.addElement(task);
         }
-        
+
         sortModel();
     }
 

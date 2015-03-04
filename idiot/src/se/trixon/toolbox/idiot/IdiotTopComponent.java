@@ -30,6 +30,8 @@ import se.trixon.almond.dictionary.Dict;
 import se.trixon.almond.icon.Pict;
 import se.trixon.toolbox.idiot.task.Task;
 import se.trixon.toolbox.core.base.ToolTopComponent;
+import se.trixon.toolbox.idiot.task.Task.DownloadListener;
+import se.trixon.toolbox.idiot.task.TaskManager;
 
 /**
  * Top component which displays something.
@@ -44,10 +46,11 @@ import se.trixon.toolbox.core.base.ToolTopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
 public final class IdiotTopComponent extends ToolTopComponent {
-    
+
     public static final int ICON_SIZE = TOOLBAR_ICON_SIZE;
     private final IdiotController mController;
-    
+    private final TaskManager mTaskManager = TaskManager.INSTANCE;
+
     public IdiotTopComponent() {
         mBundle = NbBundle.getBundle(IdiotTopComponent.class);
         mToolName = mBundle.getString("Tool-Name");
@@ -56,52 +59,52 @@ public final class IdiotTopComponent extends ToolTopComponent {
         mController = new IdiotController(this);
         init();
     }
-    
+
     private void init() {
         cronToggleButton.setIcon(Pict.Actions.DOWNLOAD_LATER.get(ICON_SIZE));
         cronToggleButton.setToolTipText(Dict.DOWNLOADS_SCHEDULE.getString());
-        
+
         downloadButton.setIcon(Pict.Actions.DOWNLOAD.get(ICON_SIZE));
         downloadButton.setToolTipText(Dict.DOWNLOAD_NOW.getString());
-        
+
         openDirectoryButton.setIcon(Pict.Actions.FOLDER_DOWNLOADS.get(ICON_SIZE));
         openDirectoryButton.setToolTipText(Dict.OPEN_DIRECTORY.getString());
-        
+
         addButton.setIcon(Pict.Actions.LIST_ADD.get(ICON_SIZE));
         editButton.setIcon(Pict.Actions.DOCUMENT_EDIT.get(ICON_SIZE));
         removeButton.setIcon(Pict.Actions.LIST_REMOVE.get(ICON_SIZE));
         removeAllButton.setIcon(Pict.Actions.EDIT_DELETE.get(ICON_SIZE));
-        
+
         tasksPanel.getList().addListSelectionListener((ListSelectionEvent e) -> {
             selectionChanged();
         });
-        
+
         tasksPanel.getList().getModel().addListDataListener(new ListDataListener() {
-            
+
             @Override
             public void contentsChanged(ListDataEvent e) {
                 dataChanged();
             }
-            
+
             @Override
             public void intervalAdded(ListDataEvent e) {
                 dataChanged();
             }
-            
+
             @Override
             public void intervalRemoved(ListDataEvent e) {
                 dataChanged();
             }
         });
-        
+
         selectionChanged();
     }
-    
+
     private void dataChanged() {
         boolean active = tasksPanel.getList().getModel().getSize() > 0;
         removeAllButton.setEnabled(active);
     }
-    
+
     private void selectionChanged() {
         boolean active = tasksPanel.getList().getSelectedIndex() > -1;
         downloadButton.setEnabled(active);
@@ -138,6 +141,11 @@ public final class IdiotTopComponent extends ToolTopComponent {
         cronToggleButton.setFocusable(false);
         cronToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         cronToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cronToggleButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cronToggleButtonActionPerformed(evt);
+            }
+        });
         toolBar.add(cronToggleButton);
 
         downloadButton.setFocusable(false);
@@ -233,49 +241,67 @@ public final class IdiotTopComponent extends ToolTopComponent {
     }//GEN-LAST:event_removeAllButtonActionPerformed
 
     private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
-        Downloader downloader = new Downloader(tasksPanel.getSelectedTask());
-        downloader.setDownloadListener(new Downloader.DownloadListener() {
-            
+        Task task = tasksPanel.getSelectedTask();
+        task.setDownloadListener(new DownloadListener() {
+
             @Override
             public void onDownloadFailed(Task task, IOException ex) {
                 Xlog.v(this.getClass(), "onDownloadFailed");
                 Xlog.v(this.getClass(), " -" + task.getName());
                 Xlog.v(this.getClass(), " -" + ex.getLocalizedMessage());
-            
+
                 Message.error(Dict.IO_ERROR_TITLE.getString(), ex.getLocalizedMessage());
             }
-            
+
             @Override
             public void onDownloadFinished(Task task, File destFile) {
                 Xlog.v(this.getClass(), "onDownloadFinished");
                 Xlog.v(this.getClass(), " -" + task.getName());
                 Xlog.v(this.getClass(), " -" + destFile.getAbsolutePath());
             }
-            
+
             @Override
             public void onDownloadStarted(Task task) {
                 Xlog.v(this.getClass(), "onDownloadStarted");
                 Xlog.v(this.getClass(), " -" + task.getName());
             }
         });
-        
-        downloader.download();
+
+        task.run();
     }//GEN-LAST:event_downloadButtonActionPerformed
 
     private void openDirectoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openDirectoryButtonActionPerformed
         if (!Desktop.isDesktopSupported()) {
             return;
         }
-        
+
         try {
             Desktop desktop = Desktop.getDesktop();
             File dest = new File(tasksPanel.getSelectedTask().getDestination()).getParentFile();
-            
+
             desktop.open(dest);
         } catch (Exception ex) {
             Message.error(Dict.IO_ERROR_TITLE.getString(), Dict.ERROR_CANT_OPEN_DIRECTORY.getString());
         }
     }//GEN-LAST:event_openDirectoryButtonActionPerformed
+
+    private void cronToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cronToggleButtonActionPerformed
+        Pict.Actions pictAction;
+        String message;
+        
+        if (cronToggleButton.isSelected()) {
+            message = "Started";
+            mTaskManager.start();
+            pictAction = Pict.Actions.MEDIA_PLAYBACK_STOP;
+        } else {
+            message = "Stopped";
+            mTaskManager.stop();
+            pictAction = Pict.Actions.DOWNLOAD_LATER;
+        }
+        
+        cronToggleButton.setIcon(pictAction.get(ICON_SIZE));
+        Message.information("info", message);
+    }//GEN-LAST:event_cronToggleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
@@ -294,15 +320,15 @@ public final class IdiotTopComponent extends ToolTopComponent {
     @Override
     public void componentOpened() {
     }
-    
+
     @Override
     public void componentClosed() {
     }
-    
+
     void writeProperties(java.util.Properties p) {
         p.setProperty("version", "1.0");
     }
-    
+
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
     }
