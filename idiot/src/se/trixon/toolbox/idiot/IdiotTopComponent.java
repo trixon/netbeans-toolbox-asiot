@@ -15,12 +15,17 @@
  */
 package se.trixon.toolbox.idiot;
 
+import java.awt.Desktop;
 import java.io.File;
 import java.io.IOException;
+import javax.swing.event.ListDataEvent;
+import javax.swing.event.ListDataListener;
+import javax.swing.event.ListSelectionEvent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import se.trixon.almond.Xlog;
+import se.trixon.almond.dialogs.Message;
 import se.trixon.almond.dictionary.Dict;
 import se.trixon.almond.icon.Pict;
 import se.trixon.toolbox.idiot.task.Task;
@@ -39,10 +44,10 @@ import se.trixon.toolbox.core.base.ToolTopComponent;
 )
 @TopComponent.Registration(mode = "editor", openAtStartup = true)
 public final class IdiotTopComponent extends ToolTopComponent {
-
+    
     public static final int ICON_SIZE = TOOLBAR_ICON_SIZE;
     private final IdiotController mController;
-
+    
     public IdiotTopComponent() {
         mBundle = NbBundle.getBundle(IdiotTopComponent.class);
         mToolName = mBundle.getString("Tool-Name");
@@ -51,15 +56,58 @@ public final class IdiotTopComponent extends ToolTopComponent {
         mController = new IdiotController(this);
         init();
     }
-
+    
     private void init() {
-        startButton.setIcon(Pict.Actions.ARROW_RIGHT.get(ICON_SIZE));
-        startButton.setToolTipText(Dict.START.getString());
-
+        cronToggleButton.setIcon(Pict.Actions.DOWNLOAD_LATER.get(ICON_SIZE));
+        cronToggleButton.setToolTipText(Dict.DOWNLOADS_SCHEDULE.getString());
+        
+        downloadButton.setIcon(Pict.Actions.DOWNLOAD.get(ICON_SIZE));
+        downloadButton.setToolTipText(Dict.DOWNLOAD_NOW.getString());
+        
+        openDirectoryButton.setIcon(Pict.Actions.FOLDER_DOWNLOADS.get(ICON_SIZE));
+        openDirectoryButton.setToolTipText(Dict.OPEN_DIRECTORY.getString());
+        
         addButton.setIcon(Pict.Actions.LIST_ADD.get(ICON_SIZE));
         editButton.setIcon(Pict.Actions.DOCUMENT_EDIT.get(ICON_SIZE));
         removeButton.setIcon(Pict.Actions.LIST_REMOVE.get(ICON_SIZE));
         removeAllButton.setIcon(Pict.Actions.EDIT_DELETE.get(ICON_SIZE));
+        
+        tasksPanel.getList().addListSelectionListener((ListSelectionEvent e) -> {
+            selectionChanged();
+        });
+        
+        tasksPanel.getList().getModel().addListDataListener(new ListDataListener() {
+            
+            @Override
+            public void contentsChanged(ListDataEvent e) {
+                dataChanged();
+            }
+            
+            @Override
+            public void intervalAdded(ListDataEvent e) {
+                dataChanged();
+            }
+            
+            @Override
+            public void intervalRemoved(ListDataEvent e) {
+                dataChanged();
+            }
+        });
+        
+        selectionChanged();
+    }
+    
+    private void dataChanged() {
+        boolean active = tasksPanel.getList().getModel().getSize() > 0;
+        removeAllButton.setEnabled(active);
+    }
+    
+    private void selectionChanged() {
+        boolean active = tasksPanel.getList().getSelectedIndex() > -1;
+        downloadButton.setEnabled(active);
+        openDirectoryButton.setEnabled(active);
+        editButton.setEnabled(active);
+        removeButton.setEnabled(active);
     }
 
     /**
@@ -71,13 +119,14 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private void initComponents() {
 
         toolBar = new javax.swing.JToolBar();
-        startButton = new javax.swing.JButton();
-        jSeparator1 = new javax.swing.JToolBar.Separator();
+        cronToggleButton = new javax.swing.JToggleButton();
+        downloadButton = new javax.swing.JButton();
+        openDirectoryButton = new javax.swing.JButton();
+        jSeparator2 = new javax.swing.JToolBar.Separator();
         addButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         removeAllButton = new javax.swing.JButton();
-        filler1 = new javax.swing.Box.Filler(new java.awt.Dimension(0, 0), new java.awt.Dimension(0, 0), new java.awt.Dimension(32767, 0));
         tasksPanel = new se.trixon.toolbox.idiot.TasksPanel();
         imageViewPanel1 = new se.trixon.almond.imageviewer.ImageViewPanel();
 
@@ -85,14 +134,31 @@ public final class IdiotTopComponent extends ToolTopComponent {
 
         toolBar.setFloatable(false);
 
-        startButton.setFocusable(false);
-        startButton.addActionListener(new java.awt.event.ActionListener() {
+        cronToggleButton.setFocusable(false);
+        cronToggleButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cronToggleButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        toolBar.add(cronToggleButton);
+
+        downloadButton.setFocusable(false);
+        downloadButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        downloadButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        downloadButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                startButtonActionPerformed(evt);
+                downloadButtonActionPerformed(evt);
             }
         });
-        toolBar.add(startButton);
-        toolBar.add(jSeparator1);
+        toolBar.add(downloadButton);
+
+        openDirectoryButton.setFocusable(false);
+        openDirectoryButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        openDirectoryButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        openDirectoryButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                openDirectoryButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(openDirectoryButton);
+        toolBar.add(jSeparator2);
 
         addButton.setToolTipText(Dict.ADD.getString());
         addButton.setFocusable(false);
@@ -137,7 +203,6 @@ public final class IdiotTopComponent extends ToolTopComponent {
             }
         });
         toolBar.add(removeAllButton);
-        toolBar.add(filler1);
 
         add(toolBar, java.awt.BorderLayout.PAGE_START);
 
@@ -146,34 +211,6 @@ public final class IdiotTopComponent extends ToolTopComponent {
         add(tasksPanel, java.awt.BorderLayout.LINE_START);
         add(imageViewPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void startButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_startButtonActionPerformed
-        Downloader downloader = new Downloader(tasksPanel.getSelectedTask());
-        downloader.setDownloadListener(new Downloader.DownloadListener() {
-
-            @Override
-            public void onDownloadFailed(Task task, IOException ex) {
-                Xlog.v(this.getClass(), "onDownloadFailed");
-                Xlog.v(this.getClass(), " -" + task.getName());
-                Xlog.v(this.getClass(), " -" + ex.getLocalizedMessage());
-            }
-
-            @Override
-            public void onDownloadFinished(Task task, File destFile) {
-                Xlog.v(this.getClass(), "onDownloadFinished");
-                Xlog.v(this.getClass(), " -" + task.getName());
-                Xlog.v(this.getClass(), " -" + destFile.getAbsolutePath());
-            }
-
-            @Override
-            public void onDownloadStarted(Task task) {
-                Xlog.v(this.getClass(), "onDownloadStarted");
-                Xlog.v(this.getClass(), " -" + task.getName());
-            }
-        });
-        
-        downloader.download();
-    }//GEN-LAST:event_startButtonActionPerformed
 
     private void addButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_addButtonActionPerformed
         tasksPanel.editTask(null);
@@ -194,30 +231,76 @@ public final class IdiotTopComponent extends ToolTopComponent {
         tasksPanel.removeAllTasks();
     }//GEN-LAST:event_removeAllButtonActionPerformed
 
+    private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
+        Downloader downloader = new Downloader(tasksPanel.getSelectedTask());
+        downloader.setDownloadListener(new Downloader.DownloadListener() {
+            
+            @Override
+            public void onDownloadFailed(Task task, IOException ex) {
+                Xlog.v(this.getClass(), "onDownloadFailed");
+                Xlog.v(this.getClass(), " -" + task.getName());
+                Xlog.v(this.getClass(), " -" + ex.getLocalizedMessage());
+            
+                Message.error(Dict.IO_ERROR_TITLE.getString(), ex.getLocalizedMessage());
+            }
+            
+            @Override
+            public void onDownloadFinished(Task task, File destFile) {
+                Xlog.v(this.getClass(), "onDownloadFinished");
+                Xlog.v(this.getClass(), " -" + task.getName());
+                Xlog.v(this.getClass(), " -" + destFile.getAbsolutePath());
+            }
+            
+            @Override
+            public void onDownloadStarted(Task task) {
+                Xlog.v(this.getClass(), "onDownloadStarted");
+                Xlog.v(this.getClass(), " -" + task.getName());
+            }
+        });
+        
+        downloader.download();
+    }//GEN-LAST:event_downloadButtonActionPerformed
+
+    private void openDirectoryButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_openDirectoryButtonActionPerformed
+        if (!Desktop.isDesktopSupported()) {
+            return;
+        }
+        
+        try {
+            Desktop desktop = Desktop.getDesktop();
+            File dest = new File(tasksPanel.getSelectedTask().getDestination()).getParentFile();
+            
+            desktop.open(dest);
+        } catch (Exception ex) {
+            Message.error(Dict.IO_ERROR_TITLE.getString(), Dict.ERROR_CANT_OPEN_DIRECTORY.getString());
+        }
+    }//GEN-LAST:event_openDirectoryButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JToggleButton cronToggleButton;
+    private javax.swing.JButton downloadButton;
     private javax.swing.JButton editButton;
-    private javax.swing.Box.Filler filler1;
     private se.trixon.almond.imageviewer.ImageViewPanel imageViewPanel1;
-    private javax.swing.JToolBar.Separator jSeparator1;
+    private javax.swing.JToolBar.Separator jSeparator2;
+    private javax.swing.JButton openDirectoryButton;
     private javax.swing.JButton removeAllButton;
     private javax.swing.JButton removeButton;
-    private javax.swing.JButton startButton;
     private se.trixon.toolbox.idiot.TasksPanel tasksPanel;
     private javax.swing.JToolBar toolBar;
     // End of variables declaration//GEN-END:variables
     @Override
     public void componentOpened() {
     }
-
+    
     @Override
     public void componentClosed() {
     }
-
+    
     void writeProperties(java.util.Properties p) {
         p.setProperty("version", "1.0");
     }
-
+    
     void readProperties(java.util.Properties p) {
         String version = p.getProperty("version");
     }

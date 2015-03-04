@@ -22,6 +22,7 @@ import java.awt.event.MouseEvent;
 import java.io.IOException;
 import javax.swing.DefaultListModel;
 import javax.swing.JButton;
+import javax.swing.JList;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
@@ -90,6 +91,10 @@ public class TasksPanel extends javax.swing.JPanel {
                 editTask(editedTask);
             }
         }
+    }
+
+    public JList getList() {
+        return list;
     }
 
     public Task getSelectedTask() {
