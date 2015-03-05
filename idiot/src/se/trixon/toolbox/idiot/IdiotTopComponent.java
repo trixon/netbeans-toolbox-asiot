@@ -24,7 +24,6 @@ import javax.swing.event.ListSelectionEvent;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
-import se.trixon.almond.Xlog;
 import se.trixon.almond.dialogs.Message;
 import se.trixon.almond.dictionary.Dict;
 import se.trixon.almond.icon.Pict;
@@ -243,27 +242,22 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private void downloadButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_downloadButtonActionPerformed
         Task task = tasksPanel.getSelectedTask();
         task.setDownloadListener(new DownloadListener() {
+            String fmt = "<html><h1>%s</h1>\n\n%s";
 
             @Override
             public void onDownloadFailed(Task task, IOException ex) {
-                Xlog.v(this.getClass(), "onDownloadFailed");
-                Xlog.v(this.getClass(), " -" + task.getName());
-                Xlog.v(this.getClass(), " -" + ex.getLocalizedMessage());
-
-                Message.error(Dict.IO_ERROR_TITLE.getString(), ex.getLocalizedMessage());
+                String message = String.format(fmt, task.getName(), ex.getLocalizedMessage());
+                Message.error(Dict.DOWNLOAD_FAILED.getString(), message);
             }
 
             @Override
             public void onDownloadFinished(Task task, File destFile) {
-                Xlog.v(this.getClass(), "onDownloadFinished");
-                Xlog.v(this.getClass(), " -" + task.getName());
-                Xlog.v(this.getClass(), " -" + destFile.getAbsolutePath());
+                String message = String.format(fmt, task.getName(), destFile.getAbsolutePath());
+                Message.information(Dict.DOWNLOAD_COMPLETED.getString(), message);
             }
 
             @Override
             public void onDownloadStarted(Task task) {
-                Xlog.v(this.getClass(), "onDownloadStarted");
-                Xlog.v(this.getClass(), " -" + task.getName());
             }
         });
 
@@ -286,21 +280,17 @@ public final class IdiotTopComponent extends ToolTopComponent {
     }//GEN-LAST:event_openDirectoryButtonActionPerformed
 
     private void cronToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cronToggleButtonActionPerformed
-        Pict.Actions pictAction;
         String message;
-        
+
         if (cronToggleButton.isSelected()) {
-            message = "Started";
+            message = Dict.STARTED.getString();
             mTaskManager.start();
-            pictAction = Pict.Actions.MEDIA_PLAYBACK_STOP;
         } else {
-            message = "Stopped";
+            message = Dict.STOPPED.getString();
             mTaskManager.stop();
-            pictAction = Pict.Actions.DOWNLOAD_LATER;
         }
-        
-        cronToggleButton.setIcon(pictAction.get(ICON_SIZE));
-        Message.information("info", message);
+
+        Message.information(Dict.DOWNLOAD_SCHEDULED.getString(), message);
     }//GEN-LAST:event_cronToggleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
