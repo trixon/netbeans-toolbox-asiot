@@ -31,7 +31,7 @@ import se.trixon.almond.Xlog;
 public class Task implements Comparable<Task>, Runnable {
 
     private boolean mActive = true;
-    private String mCron;
+    private String mCron="0 * * * *";
     private String mDescription;
     private String mDestination;
     private DownloadListener mDownloadListener = sDefaultDownloadListener;
@@ -126,7 +126,6 @@ public class Task implements Comparable<Task>, Runnable {
 
     public void setCron(String cron) {
         mCron = cron;
-        mCron = "*/5 * * * *";
     }
 
     public void setDescription(String description) {

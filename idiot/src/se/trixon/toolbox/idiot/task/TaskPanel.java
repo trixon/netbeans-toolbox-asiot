@@ -20,7 +20,6 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
-import org.openide.NotificationLineSupport;
 import org.openide.NotifyDescriptor;
 import se.trixon.almond.dialogs.FileChooserPanel;
 import se.trixon.almond.dialogs.cron.CronPanel;
@@ -75,12 +74,8 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
             if (e.getSource() == addditionalOptions[0]) {
                 CronPanel cronPanel = new CronPanel();
                 DialogDescriptor d = new DialogDescriptor(cronPanel, Dict.SCHEDULE.getString());
-                NotificationLineSupport notificationLineSupport = d.createNotificationLineSupport();
-                cronPanel.setNotificationLineSupport(notificationLineSupport);
-//                cronPanel.setCronString(mTask.getCron());
-//                cronPanel.setCronString("1-5,10-15,17,20-25 1 1,3,5,L 2-8/3 0,6");
-//                cronPanel.setCronString("*/10 1 1,3,5,L 2-8/3 0,6");
-                cronPanel.setCronString("* * * * 0,1,3-5");
+                cronPanel.setDialogDescriptor(d);
+                cronPanel.setCronString(mTask.getCron());
                 Object retval = DialogDisplayer.getDefault().notify(d);
 
                 if (retval == NotifyDescriptor.OK_OPTION) {
