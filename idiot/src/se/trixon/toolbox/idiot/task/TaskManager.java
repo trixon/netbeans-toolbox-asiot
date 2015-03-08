@@ -32,8 +32,9 @@ import org.openide.awt.Notification;
 import org.openide.awt.NotificationDisplayer;
 import org.openide.util.NbBundle;
 import org.openide.util.NbPreferences;
-import org.openide.windows.*;
-import se.trixon.almond.dialogs.Message;
+import org.openide.windows.IOProvider;
+import org.openide.windows.InputOutput;
+import org.openide.windows.OutputWriter;
 import se.trixon.almond.dictionary.Dict;
 import se.trixon.toolbox.idiot.Options;
 import se.trixon.toolbox.core.JsonHelper;
@@ -56,8 +57,8 @@ public enum TaskManager {
     private static final String KEY_URL = "url";
     private static final String KEY_VERSION = "version";
     private static final int sVersion = 1;
-    private ResourceBundle mBundle;
-    private InputOutput mInputOutput;
+    private final ResourceBundle mBundle;
+    private final InputOutput mInputOutput;
 
     private final DefaultListModel mModel = new DefaultListModel<>();
     private final Preferences mPreferences;
@@ -149,6 +150,9 @@ public enum TaskManager {
         //Backup to preferences.
         String tag = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
         mPreferences.put(tag, jsonString);
+        if (Options.INSTANCE.isActive()) {
+            restart();
+        }
     }
 
     public void sortModel() {
@@ -163,16 +167,7 @@ public enum TaskManager {
 
     public void start() {
         Options.INSTANCE.setActive(true);
-        mScheduler = new Scheduler();
-        Task[] tasks = Arrays.copyOf(mModel.toArray(), mModel.toArray().length, Task[].class);
-
-        for (Task task : tasks) {
-            if (task.isActive()) {
-                mScheduler.schedule(task.getCron(), task);
-            }
-        }
-
-        mScheduler.start();
+        restart();
         notifyStatus();
     }
 
@@ -232,5 +227,22 @@ public enum TaskManager {
                 null);
 
         log(message);
+    }
+    
+    private void restart() {
+        if (mScheduler.isStarted()) {
+            mScheduler.stop();
+        }
+        
+        mScheduler = new Scheduler();
+        Task[] tasks = Arrays.copyOf(mModel.toArray(), mModel.toArray().length, Task[].class);
+        
+        for (Task task : tasks) {
+            if (task.isActive()) {
+                mScheduler.schedule(task.getCron(), task);
+            }
+        }
+
+        mScheduler.start();
     }
 }
