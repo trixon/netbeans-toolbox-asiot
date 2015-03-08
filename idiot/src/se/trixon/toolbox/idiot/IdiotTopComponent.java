@@ -41,9 +41,9 @@ import se.trixon.toolbox.idiot.task.TaskManager;
 )
 @TopComponent.Description(
         preferredID = "IdiotTopComponent",
-        persistenceType = TopComponent.PERSISTENCE_NEVER
+        persistenceType = TopComponent.PERSISTENCE_ONLY_OPENED
 )
-@TopComponent.Registration(mode = "editor", openAtStartup = true)
+@TopComponent.Registration(mode = "editor", openAtStartup = false)
 public final class IdiotTopComponent extends ToolTopComponent {
 
     public static final int ICON_SIZE = TOOLBAR_ICON_SIZE;
@@ -57,7 +57,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         setName(mToolName);
         mController = new IdiotController(this);
         init();
-        
+
         cronToggleButton.setSelected(Options.INSTANCE.isActive());
     }
 

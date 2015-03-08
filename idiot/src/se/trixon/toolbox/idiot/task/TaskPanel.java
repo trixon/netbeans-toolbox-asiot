@@ -18,8 +18,11 @@ package se.trixon.toolbox.idiot.task;
 import java.awt.event.ActionEvent;
 import java.io.File;
 import javax.swing.JFileChooser;
+import javax.swing.event.DocumentEvent;
+import javax.swing.event.DocumentListener;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
+import org.openide.NotificationLineSupport;
 import org.openide.NotifyDescriptor;
 import se.trixon.almond.dialogs.FileChooserPanel;
 import se.trixon.almond.dialogs.cron.CronPanel;
@@ -32,13 +35,38 @@ import se.trixon.almond.dictionary.Dict;
 public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.FileChooserButtonListener {
 
     private DialogDescriptor mDialogDescriptor;
+    private NotificationLineSupport mNotificationLineSupport;
     private Task mTask;
+    private final DocumentListener mDocumentListener;
 
     /**
      * Creates new form TaskEditorPanel
      */
     public TaskPanel() {
         initComponents();
+
+        mDocumentListener = new DocumentListener() {
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validateInput();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateInput();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateInput();
+            }
+        };
+
+        nameTextField.getDocument().addDocumentListener(mDocumentListener);
+        descriptionTextField.getDocument().addDocumentListener(mDocumentListener);
+        destinationPanel.getTextField().getDocument().addDocumentListener(mDocumentListener);
+        urlTextField.getDocument().addDocumentListener(mDocumentListener);
     }
 
     public Task getTask() {
@@ -67,6 +95,7 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
     }
 
     public void setDialogDescriptor(DialogDescriptor dialogDescriptor) {
+        mNotificationLineSupport = dialogDescriptor.createNotificationLineSupport();
         mDialogDescriptor = dialogDescriptor;
         mDialogDescriptor.setButtonListener((ActionEvent e) -> {
             Object[] addditionalOptions = mDialogDescriptor.getAdditionalOptions();
@@ -88,6 +117,16 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
     public void setTask(Task task) {
         mTask = task;
         loadTask();
+        validateInput();
+    }
+
+    private void validateInput() {
+        boolean invalid = nameTextField.getText().isEmpty()
+                || descriptionTextField.getText().isEmpty()
+                || destinationPanel.getTextField().getText().isEmpty()
+                || urlTextField.getText().isEmpty();
+
+        mDialogDescriptor.setValid(!invalid);
     }
 
     /**

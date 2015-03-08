@@ -63,7 +63,6 @@ public class TasksPanel extends javax.swing.JPanel {
             title = Dict.EDIT.getString();
         }
 
-        mTaskPanel.setTask(task);
         DialogDescriptor d = new DialogDescriptor(mTaskPanel, title, true, new ActionListener() {
 
             @Override
@@ -72,6 +71,8 @@ public class TasksPanel extends javax.swing.JPanel {
         });
         d.setAdditionalOptions(new JButton[]{new JButton(Dict.SCHEDULE.getString())});
         mTaskPanel.setDialogDescriptor(d);
+        mTaskPanel.setTask(task);
+
         Object retval = DialogDisplayer.getDefault().notify(d);
 
         if (retval == NotifyDescriptor.OK_OPTION) {
@@ -86,9 +87,9 @@ public class TasksPanel extends javax.swing.JPanel {
                 mTaskManager.sortModel();
                 save();
                 list.setSelectedValue(editedTask, true);
-            } else {
-                showInvalidTaskDialog();
-                editTask(editedTask);
+                //} else {
+                //    showInvalidTaskDialog();
+                //    editTask(editedTask);
             }
         }
     }
