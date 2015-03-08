@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2015 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -22,7 +22,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
-import se.trixon.almond.Xlog;
+import se.trixon.almond.dictionary.Dict;
 
 /**
  *
@@ -31,7 +31,7 @@ import se.trixon.almond.Xlog;
 public class Task implements Comparable<Task>, Runnable {
 
     private boolean mActive = true;
-    private String mCron="0 * * * *";
+    private String mCron = "0 * * * *";
     private String mDescription;
     private String mDestination;
     private DownloadListener mDownloadListener = sDefaultDownloadListener;
@@ -42,22 +42,18 @@ public class Task implements Comparable<Task>, Runnable {
 
         @Override
         public void onDownloadFailed(Task task, IOException ex) {
-            Xlog.v(this.getClass(), "onDownloadFailed");
-            Xlog.v(this.getClass(), " -" + task.getName());
-            Xlog.v(this.getClass(), " -" + ex.getLocalizedMessage());
+            String message = String.format("%s: %s %s", Dict.DOWNLOAD_FAILED.getString(), task.getName(), ex.getLocalizedMessage());
+            TaskManager.INSTANCE.log(message);
         }
 
         @Override
         public void onDownloadFinished(Task task, File destFile) {
-            Xlog.v(this.getClass(), "onDownloadFinished");
-            Xlog.v(this.getClass(), " -" + task.getName());
-            Xlog.v(this.getClass(), " -" + destFile.getAbsolutePath());
+            String message = String.format("%s: %s %s", Dict.DOWNLOAD_COMPLETED.getString(), task.getName(), destFile.getAbsolutePath());
+            TaskManager.INSTANCE.log(message);
         }
 
         @Override
         public void onDownloadStarted(Task task) {
-            Xlog.v(this.getClass(), "onDownloadStarted");
-            Xlog.v(this.getClass(), " -" + task.getName());
         }
     };
 
@@ -169,7 +165,7 @@ public class Task implements Comparable<Task>, Runnable {
         File destPath = new File(getDestination());
         String ext = FilenameUtils.getExtension(destPath.getAbsolutePath());
         String baseName = FilenameUtils.getBaseName(destPath.getAbsolutePath());
-        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date(System.currentTimeMillis()));
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date(System.currentTimeMillis()));
 
         if (ext.isEmpty()) {
             ext = "jpg";

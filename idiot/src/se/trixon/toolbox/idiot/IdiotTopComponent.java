@@ -57,6 +57,8 @@ public final class IdiotTopComponent extends ToolTopComponent {
         setName(mToolName);
         mController = new IdiotController(this);
         init();
+        
+        cronToggleButton.setSelected(Options.INSTANCE.isActive());
     }
 
     private void init() {
@@ -280,17 +282,11 @@ public final class IdiotTopComponent extends ToolTopComponent {
     }//GEN-LAST:event_openDirectoryButtonActionPerformed
 
     private void cronToggleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cronToggleButtonActionPerformed
-        String message;
-
         if (cronToggleButton.isSelected()) {
-            message = Dict.STARTED.getString();
             mTaskManager.start();
         } else {
-            message = Dict.STOPPED.getString();
             mTaskManager.stop();
         }
-
-        Message.information(Dict.DOWNLOAD_SCHEDULED.getString(), message);
     }//GEN-LAST:event_cronToggleButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

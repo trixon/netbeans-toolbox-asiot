@@ -1,4 +1,4 @@
-/*
+/* 
  * Copyright 2015 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -20,15 +20,24 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.ResourceBundle;
 import java.util.prefs.Preferences;
 import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
 import org.apache.commons.io.FileUtils;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONValue;
+import org.openide.awt.Notification;
+import org.openide.awt.NotificationDisplayer;
+import org.openide.util.NbBundle;
 import org.openide.util.NbPreferences;
+import org.openide.windows.*;
+import se.trixon.almond.dialogs.Message;
+import se.trixon.almond.dictionary.Dict;
 import se.trixon.toolbox.idiot.Options;
 import se.trixon.toolbox.core.JsonHelper;
+import se.trixon.toolbox.idiot.IdiotTopComponent;
 
 /**
  *
@@ -47,6 +56,8 @@ public enum TaskManager {
     private static final String KEY_URL = "url";
     private static final String KEY_VERSION = "version";
     private static final int sVersion = 1;
+    private ResourceBundle mBundle;
+    private InputOutput mInputOutput;
 
     private final DefaultListModel mModel = new DefaultListModel<>();
     private final Preferences mPreferences;
@@ -55,7 +66,10 @@ public enum TaskManager {
     private int mVersion;
 
     private TaskManager() {
+        mBundle = NbBundle.getBundle(IdiotTopComponent.class);
         mPreferences = NbPreferences.forModule(this.getClass());
+        mInputOutput = IOProvider.getDefault().getIO(mBundle.getString("Tool-Name"), false);
+        mInputOutput.select();
     }
 
     public boolean exists(Task task) {
@@ -94,6 +108,18 @@ public enum TaskManager {
         return mVersion;
     }
 
+    public boolean hasActiveTasks() {
+        Task[] tasks = Arrays.copyOf(mModel.toArray(), mModel.toArray().length, Task[].class);
+
+        for (Task task : tasks) {
+            if (task.isActive()) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void load() throws IOException {
         if (Options.INSTANCE.getConfigFile().exists()) {
             JSONObject jsonObject = (JSONObject) JSONValue.parse(FileUtils.readFileToString(Options.INSTANCE.getConfigFile()));
@@ -101,6 +127,14 @@ public enum TaskManager {
             JSONArray tasksArray = (JSONArray) jsonObject.get(KEY_TASKS);
 
             jsonArrayToModel(tasksArray);
+        }
+    }
+
+    public synchronized void log(String string) {
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date(System.currentTimeMillis()));
+
+        try (OutputWriter writer = mInputOutput.getOut()) {
+            writer.append(String.format("%s %s\n", timeStamp, string));
         }
     }
 
@@ -128,6 +162,7 @@ public enum TaskManager {
     }
 
     public void start() {
+        Options.INSTANCE.setActive(true);
         mScheduler = new Scheduler();
         Task[] tasks = Arrays.copyOf(mModel.toArray(), mModel.toArray().length, Task[].class);
 
@@ -138,10 +173,13 @@ public enum TaskManager {
         }
 
         mScheduler.start();
+        notifyStatus();
     }
 
     public void stop() {
+        Options.INSTANCE.setActive(false);
         mScheduler.stop();
+        notifyStatus();
     }
 
     private void jsonArrayToModel(JSONArray array) {
@@ -182,5 +220,17 @@ public enum TaskManager {
         }
 
         return array;
+    }
+
+    private void notifyStatus() {
+        String status = Options.INSTANCE.isActive() ? Dict.STARTED.getString() : Dict.STOPPED.getString();
+        String message = String.format("%s: %s", Dict.DOWNLOAD_SCHEDULED.getString(), status);
+        Notification notification = NotificationDisplayer.getDefault().notify(
+                mBundle.getString("Tool-Name"),
+                new ImageIcon(),
+                message,
+                null);
+
+        log(message);
     }
 }

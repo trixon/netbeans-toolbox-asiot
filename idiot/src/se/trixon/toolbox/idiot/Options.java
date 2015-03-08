@@ -27,48 +27,58 @@ import org.openide.util.NbPreferences;
  * @author Patrik Karlsson <patrik@trixon.se>
  */
 public enum Options {
-
+    
     INSTANCE;
+    private final boolean DEFAULT_ACTIVE = false;
+    private final String KEY_ACTIVE = "active";
     private final File mConfigFile;
     private final File mDirectory;
     private final File mLogDirectory;
     private final File mLogFile;
     private final Preferences mPreferences;
-
+    
     private Options() {
         mDirectory = new File(FileUtils.getUserDirectory(), ".config/ttidiot");
         mLogDirectory = new File(mDirectory, "log");
         mConfigFile = new File(mDirectory, "tasks.json");
         mLogFile = new File(mDirectory, "idiot.log");
-
+        
         mPreferences = NbPreferences.forModule(this.getClass());
-
+        
         try {
             FileUtils.forceMkdir(mDirectory);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
-
+        
         try {
             FileUtils.forceMkdir(mLogDirectory);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
         }
     }
-
+    
     public File getConfigFile() {
         return mConfigFile;
     }
-
+    
     public File getDirectory() {
         return mDirectory;
     }
-
+    
     public File getLogDirectory() {
         return mLogDirectory;
     }
-
+    
     public File getLogFile() {
         return mLogFile;
+    }
+    
+    public boolean isActive() {
+        return mPreferences.getBoolean(KEY_ACTIVE, DEFAULT_ACTIVE);
+    }
+    
+    public void setActive(boolean value) {
+        mPreferences.putBoolean(KEY_ACTIVE, value);
     }
 }
