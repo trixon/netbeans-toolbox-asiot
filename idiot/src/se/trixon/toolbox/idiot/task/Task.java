@@ -167,11 +167,13 @@ public class Task implements Comparable<Task>, Runnable {
         String baseName = FilenameUtils.getBaseName(destPath.getAbsolutePath());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH.mm.ss").format(new Date(System.currentTimeMillis()));
 
+        String filename;
         if (ext.isEmpty()) {
-            ext = "jpg";
-        }
+            filename = String.format("%s_%s", baseName, timeStamp);
+        } else {
+            filename = String.format("%s_%s.%s", baseName, timeStamp, ext);
 
-        String filename = String.format("%s_%s.%s", baseName, timeStamp, ext);
+        }
 
         return new File(destPath.getParent(), filename);
     }
