@@ -20,6 +20,7 @@ import java.io.File;
 import javax.swing.JFileChooser;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
+import org.apache.commons.io.FileUtils;
 import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotificationLineSupport;
@@ -37,36 +38,14 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
     private DialogDescriptor mDialogDescriptor;
     private NotificationLineSupport mNotificationLineSupport;
     private Task mTask;
-    private final DocumentListener mDocumentListener;
+    private DocumentListener mDocumentListener;
 
     /**
      * Creates new form TaskEditorPanel
      */
     public TaskPanel() {
         initComponents();
-
-        mDocumentListener = new DocumentListener() {
-
-            @Override
-            public void changedUpdate(DocumentEvent e) {
-                validateInput();
-            }
-
-            @Override
-            public void insertUpdate(DocumentEvent e) {
-                validateInput();
-            }
-
-            @Override
-            public void removeUpdate(DocumentEvent e) {
-                validateInput();
-            }
-        };
-
-        nameTextField.getDocument().addDocumentListener(mDocumentListener);
-        descriptionTextField.getDocument().addDocumentListener(mDocumentListener);
-        destinationPanel.getTextField().getDocument().addDocumentListener(mDocumentListener);
-        urlTextField.getDocument().addDocumentListener(mDocumentListener);
+        init();
     }
 
     public Task getTask() {
@@ -92,6 +71,13 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
 
     @Override
     public void onFileChooserPreSelect(FileChooserPanel fileChooserPanel) {
+        File file;
+        if (mTask.getDestination() == null) {
+            file = new File(FileUtils.getUserDirectory(), "example.jpg");
+        } else {
+            file = new File(mTask.getDestination());
+        }
+        fileChooserPanel.getFileChooser().setSelectedFile(file);
     }
 
     public void setDialogDescriptor(DialogDescriptor dialogDescriptor) {
@@ -118,6 +104,33 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
         mTask = task;
         loadTask();
         validateInput();
+    }
+
+    private void init() {
+        mDocumentListener = new DocumentListener() {
+
+            @Override
+            public void changedUpdate(DocumentEvent e) {
+                validateInput();
+            }
+
+            @Override
+            public void insertUpdate(DocumentEvent e) {
+                validateInput();
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent e) {
+                validateInput();
+            }
+        };
+
+        nameTextField.getDocument().addDocumentListener(mDocumentListener);
+        descriptionTextField.getDocument().addDocumentListener(mDocumentListener);
+        destinationPanel.getTextField().getDocument().addDocumentListener(mDocumentListener);
+        urlTextField.getDocument().addDocumentListener(mDocumentListener);
+
+        destinationPanel.setButtonListener(this);
     }
 
     private void validateInput() {
