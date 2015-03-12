@@ -73,6 +73,16 @@
             <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="addButtonActionPerformed"/>
           </Events>
         </Component>
+        <Component class="javax.swing.JButton" name="cloneButton">
+          <Properties>
+            <Property name="focusable" type="boolean" value="false"/>
+            <Property name="horizontalTextPosition" type="int" value="0"/>
+            <Property name="verticalTextPosition" type="int" value="3"/>
+          </Properties>
+          <Events>
+            <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="cloneButtonActionPerformed"/>
+          </Events>
+        </Component>
         <Component class="javax.swing.JButton" name="editButton">
           <Properties>
             <Property name="toolTipText" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">

@@ -22,6 +22,7 @@ import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
 import org.netbeans.api.settings.ConvertAsProperties;
+import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import se.trixon.almond.dialogs.Message;
@@ -73,6 +74,8 @@ public final class IdiotTopComponent extends ToolTopComponent {
 
         addButton.setIcon(Pict.Actions.LIST_ADD.get(ICON_SIZE));
         editButton.setIcon(Pict.Actions.DOCUMENT_EDIT.get(ICON_SIZE));
+        cloneButton.setIcon(Pict.Actions.EDIT_COPY.get(ICON_SIZE));
+        cloneButton.setToolTipText(Dict.CLONE.getString());
         removeButton.setIcon(Pict.Actions.LIST_REMOVE.get(ICON_SIZE));
         removeAllButton.setIcon(Pict.Actions.EDIT_DELETE.get(ICON_SIZE));
 
@@ -111,6 +114,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         downloadButton.setEnabled(active);
         openDirectoryButton.setEnabled(active);
         editButton.setEnabled(active);
+        cloneButton.setEnabled(active);
         removeButton.setEnabled(active);
     }
 
@@ -128,6 +132,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         openDirectoryButton = new javax.swing.JButton();
         jSeparator2 = new javax.swing.JToolBar.Separator();
         addButton = new javax.swing.JButton();
+        cloneButton = new javax.swing.JButton();
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         removeAllButton = new javax.swing.JButton();
@@ -180,6 +185,16 @@ public final class IdiotTopComponent extends ToolTopComponent {
             }
         });
         toolBar.add(addButton);
+
+        cloneButton.setFocusable(false);
+        cloneButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        cloneButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        cloneButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cloneButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(cloneButton);
 
         editButton.setToolTipText(Dict.EDIT.getString());
         editButton.setFocusable(false);
@@ -289,8 +304,20 @@ public final class IdiotTopComponent extends ToolTopComponent {
         }
     }//GEN-LAST:event_cronToggleButtonActionPerformed
 
+    private void cloneButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloneButtonActionPerformed
+        try {
+            Task t = tasksPanel.getSelectedTask().clone();
+            mTaskManager.getModel().addElement(t);
+            mTaskManager.sortModel();
+            mTaskManager.save();
+        } catch (CloneNotSupportedException | IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
+    }//GEN-LAST:event_cloneButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
+    private javax.swing.JButton cloneButton;
     private javax.swing.JToggleButton cronToggleButton;
     private javax.swing.JButton downloadButton;
     private javax.swing.JButton editButton;

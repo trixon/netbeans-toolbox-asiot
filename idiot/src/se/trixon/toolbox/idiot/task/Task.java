@@ -28,7 +28,7 @@ import se.trixon.almond.dictionary.Dict;
  *
  * @author Patrik Karlsson <patrik@trixon.se>
  */
-public class Task implements Comparable<Task>, Runnable {
+public class Task implements Comparable<Task>, Runnable, Cloneable {
 
     private boolean mActive = true;
     private String mCron = "0 * * * *";
@@ -58,6 +58,13 @@ public class Task implements Comparable<Task>, Runnable {
     };
 
     public Task() {
+    }
+
+    @Override
+    public Task clone() throws CloneNotSupportedException {
+        Task t = (Task) super.clone();
+        t.setId(System.currentTimeMillis());
+        return t;
     }
 
     @Override
