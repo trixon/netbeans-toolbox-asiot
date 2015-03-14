@@ -265,16 +265,22 @@ public final class IdiotTopComponent extends ToolTopComponent {
             public void onDownloadFailed(Task task, IOException ex) {
                 String message = String.format(fmt, task.getName(), ex.getLocalizedMessage());
                 Message.error(Dict.DOWNLOAD_FAILED.getString(), message);
+                restoreListener();
             }
 
             @Override
             public void onDownloadFinished(Task task, File destFile) {
                 String message = String.format(fmt, task.getName(), destFile.getAbsolutePath());
                 Message.information(Dict.DOWNLOAD_COMPLETED.getString(), message);
+                restoreListener();
             }
 
             @Override
             public void onDownloadStarted(Task task) {
+            }
+
+            private void restoreListener() {
+                task.setDownloadListener(Task.DEFAULT_DOWNLOAD_LISTENER);
             }
         });
 

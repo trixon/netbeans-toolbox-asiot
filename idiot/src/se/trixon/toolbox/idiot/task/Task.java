@@ -22,6 +22,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.openide.util.Exceptions;
 import se.trixon.almond.dictionary.Dict;
 
 /**
@@ -30,32 +32,29 @@ import se.trixon.almond.dictionary.Dict;
  */
 public class Task implements Comparable<Task>, Runnable, Cloneable {
 
-    private boolean mActive = true;
-    private String mCron = "0 * * * *";
-    private String mDescription;
-    private String mDestination;
-    private DownloadListener mDownloadListener = sDefaultDownloadListener;
-    private long mId = System.currentTimeMillis();
-    private String mName;
-    private String mUrl;
-    private static final DownloadListener sDefaultDownloadListener = new DownloadListener() {
+    public static final DownloadListener DEFAULT_DOWNLOAD_LISTENER = new DownloadListener() {
 
         @Override
         public void onDownloadFailed(Task task, IOException ex) {
-            String message = String.format("%s: %s %s", Dict.DOWNLOAD_FAILED.getString(), task.getName(), ex.getLocalizedMessage());
-            TaskManager.INSTANCE.log(message);
         }
 
         @Override
         public void onDownloadFinished(Task task, File destFile) {
-            String message = String.format("%s: %s %s", Dict.DOWNLOAD_COMPLETED.getString(), task.getName(), destFile.getAbsolutePath());
-            TaskManager.INSTANCE.log(message);
         }
 
         @Override
         public void onDownloadStarted(Task task) {
         }
     };
+
+    private boolean mActive = true;
+    private String mCron = "0 * * * *";
+    private String mDescription;
+    private String mDestination;
+    private DownloadListener mDownloadListener = DEFAULT_DOWNLOAD_LISTENER;
+    private long mId = System.currentTimeMillis();
+    private String mName;
+    private String mUrl;
 
     public Task() {
     }
@@ -116,8 +115,17 @@ public class Task implements Comparable<Task>, Runnable, Cloneable {
                 URL url = new URL(getUrl());
                 File destFile = getDestPath();
                 FileUtils.copyURLToFile(url, destFile, 15000, 15000);
+
+                String message = String.format("%s: %s", Dict.DOWNLOAD_COMPLETED.getString(), destFile.getAbsolutePath());
+                TaskManager.INSTANCE.log(message);
+                logToFile(message);
+
                 mDownloadListener.onDownloadFinished(this, destFile);
             } catch (IOException ex) {
+                String message = String.format("%s: %s", Dict.DOWNLOAD_FAILED.getString(), ex.getLocalizedMessage());
+                TaskManager.INSTANCE.log(message);
+                logToFile(message);
+
                 mDownloadListener.onDownloadFailed(this, ex);
             }
         }).start();
@@ -183,6 +191,28 @@ public class Task implements Comparable<Task>, Runnable, Cloneable {
         }
 
         return new File(destPath.getParent(), filename);
+    }
+
+    private synchronized void logToFile(String message) {
+        File dir = new File(mDestination).getParentFile();
+        String basename = FilenameUtils.getBaseName(mDestination);
+        String ext = FilenameUtils.getExtension(mDestination);
+        if (ext.equalsIgnoreCase("log")) {
+            ext = "log.log";
+        } else {
+            ext = "log";
+        }
+
+        File logFile = new File(dir, String.format("%s.%s", basename, ext));
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH.mm.ss").format(new Date(System.currentTimeMillis()));
+
+        message = String.format("%s %s%s", timeStamp, message, IOUtils.LINE_SEPARATOR);
+
+        try {
+            FileUtils.writeStringToFile(logFile, message, true);
+        } catch (IOException ex) {
+            Exceptions.printStackTrace(ex);
+        }
     }
 
     public interface DownloadListener {
