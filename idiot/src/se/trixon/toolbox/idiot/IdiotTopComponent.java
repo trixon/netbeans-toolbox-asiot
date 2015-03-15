@@ -16,11 +16,18 @@
 package se.trixon.toolbox.idiot;
 
 import java.awt.Desktop;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.io.File;
+import java.io.FileFilter;
 import java.io.IOException;
+import java.util.Arrays;
 import javax.swing.event.ListDataEvent;
 import javax.swing.event.ListDataListener;
 import javax.swing.event.ListSelectionEvent;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.filefilter.WildcardFileFilter;
+import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
@@ -80,9 +87,35 @@ public final class IdiotTopComponent extends ToolTopComponent {
         removeAllButton.setIcon(Pict.Actions.EDIT_DELETE.get(ICON_SIZE));
 
         tasksPanel.getList().addListSelectionListener((ListSelectionEvent e) -> {
-            selectionChanged();
+
+            if (!e.getValueIsAdjusting()) {
+                selectionChanged();
+            }
         });
 
+        tasksPanel.getList().addMouseListener(new MouseListener() {
+
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                initImageViewer();
+            }
+
+            @Override
+            public void mouseEntered(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+            }
+
+            @Override
+            public void mousePressed(MouseEvent e) {
+            }
+
+            @Override
+            public void mouseReleased(MouseEvent e) {
+            }
+        });
         tasksPanel.getList().getModel().addListDataListener(new ListDataListener() {
 
             @Override
@@ -107,6 +140,28 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private void dataChanged() {
         boolean active = tasksPanel.getList().getModel().getSize() > 0;
         removeAllButton.setEnabled(active);
+    }
+
+    private void initImageViewer() {
+        Task task = tasksPanel.getSelectedTask();
+        if (task == null) {
+            return;
+        }
+
+        File taskFile = new File(task.getDestination());
+        File dir = taskFile.getParentFile();
+        String basename = FilenameUtils.getBaseName(taskFile.getAbsolutePath());
+        String ext = FilenameUtils.getExtension(taskFile.getAbsolutePath());
+        StringBuilder builder = new StringBuilder(basename).append("*");
+        if (StringUtils.isNotEmpty(ext)) {
+            builder.append(".").append(ext);
+        }
+
+        FileFilter fileFilter = new WildcardFileFilter(builder.toString());
+        File[] files = dir.listFiles(fileFilter);
+        Arrays.sort(files);
+
+        imageViewPanel.addReplace(files);
     }
 
     private void selectionChanged() {
@@ -138,7 +193,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         removeAllButton = new javax.swing.JButton();
         splitPanel = new javax.swing.JSplitPane();
         tasksPanel = new se.trixon.toolbox.idiot.TasksPanel();
-        imageViewPanel1 = new se.trixon.almond.imageviewer.ImageViewPanel();
+        imageViewPanel = new se.trixon.almond.imageviewer.ImageViewPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -232,7 +287,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         add(toolBar, java.awt.BorderLayout.PAGE_START);
 
         splitPanel.setLeftComponent(tasksPanel);
-        splitPanel.setRightComponent(imageViewPanel1);
+        splitPanel.setRightComponent(imageViewPanel);
 
         add(splitPanel, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
@@ -271,6 +326,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
             @Override
             public void onDownloadFinished(Task task, File destFile) {
                 String message = String.format(fmt, task.getName(), destFile.getAbsolutePath());
+                initImageViewer();
                 Message.information(Dict.DOWNLOAD_COMPLETED.getString(), message);
                 restoreListener();
             }
@@ -327,7 +383,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private javax.swing.JToggleButton cronToggleButton;
     private javax.swing.JButton downloadButton;
     private javax.swing.JButton editButton;
-    private se.trixon.almond.imageviewer.ImageViewPanel imageViewPanel1;
+    private se.trixon.almond.imageviewer.ImageViewPanel imageViewPanel;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JButton openDirectoryButton;
     private javax.swing.JButton removeAllButton;
