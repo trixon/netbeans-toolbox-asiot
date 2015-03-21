@@ -116,6 +116,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
             public void mouseReleased(MouseEvent e) {
             }
         });
+        
         tasksPanel.getList().getModel().addListDataListener(new ListDataListener() {
 
             @Override
@@ -152,7 +153,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         File dir = taskFile.getParentFile();
         String basename = FilenameUtils.getBaseName(taskFile.getAbsolutePath());
         String ext = FilenameUtils.getExtension(taskFile.getAbsolutePath());
-        StringBuilder builder = new StringBuilder(basename).append("*");
+        StringBuilder builder = new StringBuilder(basename).append("_????-??-??_??.??.??");
         if (StringUtils.isNotEmpty(ext)) {
             builder.append(".").append(ext);
         }
