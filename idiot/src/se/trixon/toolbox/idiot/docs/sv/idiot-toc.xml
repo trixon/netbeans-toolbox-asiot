@@ -17,7 +17,7 @@ limitations under the License.
 
 <!DOCTYPE toc PUBLIC "-//Sun Microsystems Inc.//DTD JavaHelp TOC Version 2.0//EN" "http://java.sun.com/products/javahelp/toc_2_0.dtd">
 <toc version="2.0">
-    <tocitem text="Trixon Idiot">
-        <tocitem text="About Trixon Idiot" target="se.trixon.toolbox.idiot.about"/>
+    <tocitem text="Idiot">
+        <tocitem text="Funktionsbeskrivning" target="se.trixon.toolbox.idiot.about"/>
     </tocitem>
 </toc>

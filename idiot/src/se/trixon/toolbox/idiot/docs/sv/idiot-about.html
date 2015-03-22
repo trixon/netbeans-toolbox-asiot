@@ -15,14 +15,55 @@ limitations under the License.
 -->
 <html>
     <head>
-        <title>About Trixon Idiot</title>
+        <title>Funktionsbeskrivning</title>
         <link rel="stylesheet" href="nbdocs://org.netbeans.modules.usersguide/org/netbeans/modules/usersguide/ide.css" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h2>About Trixon Idiot</h2>
+        <h1>Idiot – Funktionsbeskrivning</h1>
+        Idiot (Idiot Downloads Images On Time) hämtar bilder från exempelvis webbkameror med regelbundenhet.
+
+        <hr>
+        <h1>Verktygsfältet</h1>
+        Verktygsfältet har ett antal knappar som styr programkörningen.
+        <ol>
+            <li>Schemalägg hämtningar - slår av och på schemaläggningen.</li>
+            <li>Hämta nu - hämta bild omdelbart.</li>
+            <li>Öppna katalog - öppnar katalogen där bilderna lagras.</li>
+            <li>Lägg till - lägger till ett nytt jobb.</li>
+            <li>Klona - klonar det markerade jobbet.</li>
+            <li>Redigera - redigera markerat jobb.</li>
+            <li>Ta bort - ta bort markerat jobb.</li>
+            <li>Ta bort alla - ta bort alla jobb.</li>
+            <li>Hjälp - visar denna hjälp.</li>
+        </ol>
+
+        <hr>
+        <h1>Jobb</h1>
         <p>
-            <!-- TODO describe your module, add more pages... -->
+            <strong>Namn</strong> anger namnet för jobbet.
         </p>
+        <p>
+            <strong>Beskrivning</strong> är en beskrivande text som visas i jobblistan.
+        </p>
+        <p>
+            <strong>URL</strong> är sökvägen till bilden på internet.
+        </p>
+        <p>
+            <strong>Mål</strong>, sökväg med katalog och basfilnamn. Hämtade bilder får ett tillägg med datum och tid.
+        </p>
+        <p>
+            <strong>Aktiv</strong>, anger om schemaläggaren ska köra detta jobb eller inte.
+        </p>
+        
+        <h2>Schema</h2>
+        Ett jobb körs när alla villkor är uppfyllda. Se 
+        <object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+            <param name="content" value="http://en.wikipedia.org/wiki/Cron">
+            <param name="text" value="<html><u>cron</u></html>">
+            <param name="textFontSize" value="medium">
+            <param name="textColor" value="blue">
+        </object>
+
     </body>
 </html>

@@ -15,14 +15,55 @@ limitations under the License.
 -->
 <html>
     <head>
-        <title>About Trixon Idiot</title>
+        <title>Feature Description</title>
         <link rel="stylesheet" href="nbdocs://org.netbeans.modules.usersguide/org/netbeans/modules/usersguide/ide.css" type="text/css">
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     </head>
     <body>
-        <h2>About Trixon Idiot</h2>
+        <h1>Idiot – Feature Description</h1>
+        Idiot (Idiot Downloads Images On Time) downloads images from web cams with regularity.
+
+        <hr>
+        <h1>Toolbar</h1>
+        The toolbar has a number of buttons that control program execution.
+        <ol>
+            <li>Schedule downloads - turn on and off schedule.</li>
+            <li>Download now - download image immediately.</li>
+            <li>Open Directory - opens the directory where the images are stored.</li>
+            <li>Add - adds a new job.</li>
+            <li>Clone - clone the selected job.</li>
+            <li>Edit - edit the selected job.</li>
+            <li>Remove - remove the selected job.</li>
+            <li>Remove all - remove all jobs.</li>
+            <li>Help - displays this help.</li>
+        </ol>
+
+        <hr>
+        <h1>Job</h1>
         <p>
-            <!-- TODO describe your module, add more pages... -->
+            <strong>Name</strong> specifies the name of the job.
         </p>
+        <p>
+            <strong>Description</strong> is the descriptive text that appears in the job list.
+        </p>
+        <p>
+            <strong>URL</strong> is the path to the picture on the internet.
+        </p>
+        <p>
+            <strong>Destination</strong>, path with the directory and base file name. Downloaded images gets a suffix with date and time.
+        </p>
+        <p>
+            <strong>Active</strong>, indicates whether the scheduler should run this job or not.
+        </p>
+        
+        <h2>Schedule</h2>
+        A job is executed when all conditions are met. See 
+        <object classid="java:org.netbeans.modules.javahelp.BrowserDisplayer">
+            <param name="content" value="http://en.wikipedia.org/wiki/Cron">
+            <param name="text" value="<html><u>cron</u></html>">
+            <param name="textFontSize" value="medium">
+            <param name="textColor" value="blue">
+        </object>
+
     </body>
 </html>
