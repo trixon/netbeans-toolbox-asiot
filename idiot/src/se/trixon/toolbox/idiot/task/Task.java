@@ -117,14 +117,16 @@ public class Task implements Comparable<Task>, Runnable, Cloneable {
                 FileUtils.copyURLToFile(url, destFile, 15000, 15000);
 
                 String message = String.format("%s: %s", Dict.DOWNLOAD_COMPLETED.getString(), destFile.getAbsolutePath());
-                TaskManager.INSTANCE.log(message);
                 logToFile(message);
+                message = String.format("%s (%s)", message, mName);
+                TaskManager.INSTANCE.log(message);
 
                 mDownloadListener.onDownloadFinished(this, destFile);
             } catch (IOException ex) {
                 String message = String.format("%s: %s", Dict.DOWNLOAD_FAILED.getString(), ex.getLocalizedMessage());
-                TaskManager.INSTANCE.log(message);
                 logToFile(message);
+                message = String.format("%s (%s)", message, mName);
+                TaskManager.INSTANCE.log(message);
 
                 mDownloadListener.onDownloadFailed(this, ex);
             }
