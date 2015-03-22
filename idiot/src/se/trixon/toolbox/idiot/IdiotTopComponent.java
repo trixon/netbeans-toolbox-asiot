@@ -170,8 +170,14 @@ public final class IdiotTopComponent extends ToolTopComponent {
         }
 
         FileFilter fileFilter = new WildcardFileFilter(builder.toString());
-        File[] files = dir.listFiles(fileFilter);
-        Arrays.sort(files);
+
+        File[] files;
+        if (dir == null) {
+            files = new File[0];
+        } else {
+            files = dir.listFiles(fileFilter);
+            Arrays.sort(files);
+        }
 
         imageViewPanel.addReplace(files);
     }
