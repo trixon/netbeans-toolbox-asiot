@@ -30,6 +30,7 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 import org.apache.commons.lang3.StringUtils;
 import org.netbeans.api.settings.ConvertAsProperties;
 import org.openide.util.Exceptions;
+import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import se.trixon.almond.dialogs.Message;
@@ -69,7 +70,14 @@ public final class IdiotTopComponent extends ToolTopComponent {
         cronToggleButton.setSelected(Options.INSTANCE.isActive());
     }
 
+    @Override
+    public HelpCtx getHelpCtx() {
+        return new HelpCtx(mHelpId);
+    }
+
     private void init() {
+        mHelpId = "se.trixon.toolbox.idiot.about";
+
         cronToggleButton.setIcon(Pict.Actions.DOWNLOAD_LATER.get(ICON_SIZE));
         cronToggleButton.setToolTipText(Dict.DOWNLOADS_SCHEDULE.getString());
 
@@ -85,6 +93,9 @@ public final class IdiotTopComponent extends ToolTopComponent {
         cloneButton.setToolTipText(Dict.CLONE.getString());
         removeButton.setIcon(Pict.Actions.LIST_REMOVE.get(ICON_SIZE));
         removeAllButton.setIcon(Pict.Actions.EDIT_DELETE.get(ICON_SIZE));
+
+        helpButton.setIcon(Pict.Actions.HELP_CONTENTS.get(ICON_SIZE));
+        helpButton.setToolTipText(Dict.HELP.getString());
 
         tasksPanel.getList().addListSelectionListener((ListSelectionEvent e) -> {
 
@@ -116,7 +127,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
             public void mouseReleased(MouseEvent e) {
             }
         });
-        
+
         tasksPanel.getList().getModel().addListDataListener(new ListDataListener() {
 
             @Override
@@ -192,6 +203,8 @@ public final class IdiotTopComponent extends ToolTopComponent {
         editButton = new javax.swing.JButton();
         removeButton = new javax.swing.JButton();
         removeAllButton = new javax.swing.JButton();
+        jSeparator1 = new javax.swing.JToolBar.Separator();
+        helpButton = new javax.swing.JButton();
         splitPanel = new javax.swing.JSplitPane();
         tasksPanel = new se.trixon.toolbox.idiot.TasksPanel();
         imageViewPanel = new se.trixon.almond.imageviewer.ImageViewPanel();
@@ -284,6 +297,17 @@ public final class IdiotTopComponent extends ToolTopComponent {
             }
         });
         toolBar.add(removeAllButton);
+        toolBar.add(jSeparator1);
+
+        helpButton.setFocusable(false);
+        helpButton.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        helpButton.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        helpButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                helpButtonActionPerformed(evt);
+            }
+        });
+        toolBar.add(helpButton);
 
         add(toolBar, java.awt.BorderLayout.PAGE_START);
 
@@ -378,13 +402,19 @@ public final class IdiotTopComponent extends ToolTopComponent {
         }
     }//GEN-LAST:event_cloneButtonActionPerformed
 
+    private void helpButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpButtonActionPerformed
+        displayHelp(mHelpId);
+    }//GEN-LAST:event_helpButtonActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton addButton;
     private javax.swing.JButton cloneButton;
     private javax.swing.JToggleButton cronToggleButton;
     private javax.swing.JButton downloadButton;
     private javax.swing.JButton editButton;
+    private javax.swing.JButton helpButton;
     private se.trixon.almond.imageviewer.ImageViewPanel imageViewPanel;
+    private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JButton openDirectoryButton;
     private javax.swing.JButton removeAllButton;
