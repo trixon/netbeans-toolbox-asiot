@@ -33,15 +33,11 @@ public enum Options {
     private final String KEY_ACTIVE = "active";
     private final File mConfigFile;
     private final File mDirectory;
-    private final File mLogDirectory;
-    private final File mLogFile;
     private final Preferences mPreferences;
     
     private Options() {
         mDirectory = new File(FileUtils.getUserDirectory(), ".config/ttidiot");
-        mLogDirectory = new File(mDirectory, "log");
         mConfigFile = new File(mDirectory, "tasks.json");
-        mLogFile = new File(mDirectory, "idiot.log");
         
         mPreferences = NbPreferences.forModule(this.getClass());
         
@@ -49,13 +45,7 @@ public enum Options {
             FileUtils.forceMkdir(mDirectory);
         } catch (IOException ex) {
             Exceptions.printStackTrace(ex);
-        }
-        
-        try {
-            FileUtils.forceMkdir(mLogDirectory);
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+        }        
     }
     
     public File getConfigFile() {
@@ -64,14 +54,6 @@ public enum Options {
     
     public File getDirectory() {
         return mDirectory;
-    }
-    
-    public File getLogDirectory() {
-        return mLogDirectory;
-    }
-    
-    public File getLogFile() {
-        return mLogFile;
     }
     
     public boolean isActive() {
