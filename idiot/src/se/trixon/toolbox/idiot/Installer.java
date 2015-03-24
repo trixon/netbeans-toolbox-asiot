@@ -21,6 +21,8 @@ import org.openide.NotifyDescriptor;
 import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
+import org.openide.windows.WindowManager;
+import se.trixon.almond.Xlog;
 import se.trixon.toolbox.idiot.task.TaskManager;
 
 /**
@@ -50,15 +52,17 @@ public class Installer extends ModuleInstall {
 
     @Override
     public void restored() {
-        try {
-            TaskManager.INSTANCE.load();
-            if (Options.INSTANCE.isActive()) {
-                TaskManager.INSTANCE.start();
+        WindowManager.getDefault().invokeWhenUIReady(() -> {
+            try {
+                TaskManager.INSTANCE.load();
+                if (Options.INSTANCE.isActive()) {
+                    TaskManager.INSTANCE.start();
+                }
+
+            } catch (IOException ex) {
+                Exceptions.printStackTrace(ex);
             }
-
-        } catch (IOException ex) {
-            Exceptions.printStackTrace(ex);
-        }
+            Xlog.select();
+        });
     }
-
 }
