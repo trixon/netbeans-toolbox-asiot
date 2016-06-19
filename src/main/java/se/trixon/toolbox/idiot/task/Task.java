@@ -24,7 +24,7 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
 import org.openide.util.Exceptions;
-import se.trixon.almond.dictionary.Dict;
+import se.trixon.almond.util.Dict;
 
 /**
  *

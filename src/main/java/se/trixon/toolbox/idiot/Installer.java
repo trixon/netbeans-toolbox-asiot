@@ -22,7 +22,7 @@ import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.WindowManager;
-import se.trixon.almond.Xlog;
+import se.trixon.almond.nbp.Xlog;
 import se.trixon.toolbox.idiot.task.TaskManager;
 
 /**

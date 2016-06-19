@@ -35,7 +35,7 @@ import org.openide.util.NbPreferences;
 import org.openide.windows.IOProvider;
 import org.openide.windows.InputOutput;
 import org.openide.windows.OutputWriter;
-import se.trixon.almond.dictionary.Dict;
+import se.trixon.almond.util.Dict;
 import se.trixon.toolbox.idiot.Options;
 import se.trixon.toolbox.core.JsonHelper;
 import se.trixon.toolbox.idiot.IdiotTopComponent;

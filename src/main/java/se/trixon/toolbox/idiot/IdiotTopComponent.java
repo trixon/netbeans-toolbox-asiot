@@ -33,9 +33,9 @@ import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
-import se.trixon.almond.dialogs.Message;
-import se.trixon.almond.dictionary.Dict;
-import se.trixon.almond.icon.Pict;
+import se.trixon.almond.nbp.dialogs.Message;
+import se.trixon.almond.util.Dict;
+import se.trixon.almond.util.icon.Pict;
 import se.trixon.toolbox.idiot.task.Task;
 import se.trixon.toolbox.core.base.ToolTopComponent;
 import se.trixon.toolbox.idiot.task.Task.DownloadListener;
@@ -213,7 +213,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
         helpButton = new javax.swing.JButton();
         splitPanel = new javax.swing.JSplitPane();
         tasksPanel = new se.trixon.toolbox.idiot.TasksPanel();
-        imageViewPanel = new se.trixon.almond.imageviewer.ImageViewPanel();
+        imageViewPanel = new se.trixon.almond.nbp.imageviewer.ImageViewPanel();
 
         setLayout(new java.awt.BorderLayout());
 
@@ -419,7 +419,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private javax.swing.JButton downloadButton;
     private javax.swing.JButton editButton;
     private javax.swing.JButton helpButton;
-    private se.trixon.almond.imageviewer.ImageViewPanel imageViewPanel;
+    private se.trixon.almond.nbp.imageviewer.ImageViewPanel imageViewPanel;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JButton openDirectoryButton;

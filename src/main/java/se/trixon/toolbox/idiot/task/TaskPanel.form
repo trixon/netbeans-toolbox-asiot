@@ -99,7 +99,7 @@
         </Property>
       </Properties>
     </Component>
-    <Component class="se.trixon.almond.dialogs.FileChooserPanel" name="destinationPanel">
+    <Component class="se.trixon.almond.nbp.dialogs.FileChooserPanel" name="destinationPanel">
       <Properties>
         <Property name="header" type="java.lang.String" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
           <Connection code="Dict.DESTINATION.getString()" type="code"/>

@@ -21,7 +21,7 @@ import org.openide.util.lookup.ServiceProviders;
 import se.trixon.toolbox.core.ToolProvider;
 import se.trixon.toolbox.core.base.ToolController;
 import se.trixon.toolbox.core.base.ToolTopComponent;
-import se.trixon.almond.news.NewsProvider;
+import se.trixon.almond.nbp.news.NewsProvider;
 
 /**
  *

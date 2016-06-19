@@ -28,7 +28,7 @@ import org.openide.DialogDisplayer;
 import org.openide.NotifyDescriptor;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
-import se.trixon.almond.dictionary.Dict;
+import se.trixon.almond.util.Dict;
 import se.trixon.toolbox.idiot.task.Task;
 import se.trixon.toolbox.idiot.task.TaskManager;
 import se.trixon.toolbox.idiot.task.TaskPanel;

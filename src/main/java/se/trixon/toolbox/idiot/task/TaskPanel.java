@@ -25,9 +25,9 @@ import org.openide.DialogDescriptor;
 import org.openide.DialogDisplayer;
 import org.openide.NotificationLineSupport;
 import org.openide.NotifyDescriptor;
-import se.trixon.almond.dialogs.FileChooserPanel;
-import se.trixon.almond.dialogs.cron.CronPanel;
-import se.trixon.almond.dictionary.Dict;
+import se.trixon.almond.nbp.dialogs.FileChooserPanel;
+import se.trixon.almond.nbp.dialogs.cron.CronPanel;
+import se.trixon.almond.util.Dict;
 
 /**
  *
@@ -158,7 +158,7 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
         descriptionTextField = new javax.swing.JTextField();
         urlLabel = new javax.swing.JLabel();
         urlTextField = new javax.swing.JTextField();
-        destinationPanel = new se.trixon.almond.dialogs.FileChooserPanel();
+        destinationPanel = new se.trixon.almond.nbp.dialogs.FileChooserPanel();
 
         org.openide.awt.Mnemonics.setLocalizedText(activeCheckBox, Dict.ACTIVE.getString());
 
@@ -222,7 +222,7 @@ public class TaskPanel extends javax.swing.JPanel implements FileChooserPanel.Fi
     private javax.swing.JCheckBox activeCheckBox;
     private javax.swing.JLabel descriptionLabel;
     private javax.swing.JTextField descriptionTextField;
-    private se.trixon.almond.dialogs.FileChooserPanel destinationPanel;
+    private se.trixon.almond.nbp.dialogs.FileChooserPanel destinationPanel;
     private javax.swing.JLabel nameLabel;
     private javax.swing.JTextField nameTextField;
     private javax.swing.JLabel urlLabel;
