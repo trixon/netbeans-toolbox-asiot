@@ -1,4 +1,4 @@
-/* 
+/*
  * Copyright 2016 Patrik Karlsson.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -36,8 +36,8 @@ import org.openide.windows.TopComponent;
 import se.trixon.almond.nbp.dialogs.Message;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icon.Pict;
-import se.trixon.toolbox.idiot.task.Task;
 import se.trixon.toolbox.core.base.ToolTopComponent;
+import se.trixon.toolbox.idiot.task.Task;
 import se.trixon.toolbox.idiot.task.Task.DownloadListener;
 import se.trixon.toolbox.idiot.task.TaskManager;
 
@@ -385,7 +385,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
 
             desktop.open(dest);
         } catch (Exception ex) {
-            Message.error(Dict.IO_ERROR_TITLE.getString(), Dict.ERROR_CANT_OPEN_DIRECTORY.getString());
+            Message.error(Dict.Dialog.TITLE_IO_ERROR.toString(), Dict.Dialog.ERROR_CANT_OPEN_DIRECTORY.toString());
         }
     }//GEN-LAST:event_openDirectoryButtonActionPerformed
 
