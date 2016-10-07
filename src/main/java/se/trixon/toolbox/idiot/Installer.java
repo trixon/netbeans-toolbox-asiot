@@ -22,7 +22,7 @@ import org.openide.modules.ModuleInstall;
 import org.openide.util.Exceptions;
 import org.openide.util.NbBundle;
 import org.openide.windows.WindowManager;
-import se.trixon.almond.nbp.Xlog;
+import se.trixon.almond.nbp.NbLog;
 import se.trixon.toolbox.idiot.task.TaskManager;
 
 /**
@@ -62,7 +62,7 @@ public class Installer extends ModuleInstall {
             } catch (IOException ex) {
                 Exceptions.printStackTrace(ex);
             }
-            Xlog.select();
+            NbLog.select();
         });
     }
 }

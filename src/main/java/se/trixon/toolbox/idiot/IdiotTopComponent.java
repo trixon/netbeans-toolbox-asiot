@@ -33,7 +33,7 @@ import org.openide.util.Exceptions;
 import org.openide.util.HelpCtx;
 import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
-import se.trixon.almond.nbp.dialogs.Message;
+import se.trixon.almond.nbp.dialogs.NbMessage;
 import se.trixon.almond.util.Dict;
 import se.trixon.almond.util.icon.Pict;
 import se.trixon.toolbox.core.base.ToolTopComponent;
@@ -350,7 +350,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
             @Override
             public void onDownloadFailed(Task task, IOException ex) {
                 String message = String.format(fmt, task.getName(), ex.getLocalizedMessage());
-                Message.error(Dict.DOWNLOAD_FAILED.getString(), message);
+                NbMessage.error(Dict.DOWNLOAD_FAILED.getString(), message);
                 restoreListener();
             }
 
@@ -358,7 +358,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
             public void onDownloadFinished(Task task, File destFile) {
                 String message = String.format(fmt, task.getName(), destFile.getAbsolutePath());
                 initImageViewer();
-                Message.information(Dict.DOWNLOAD_COMPLETED.getString(), message);
+                NbMessage.information(Dict.DOWNLOAD_COMPLETED.getString(), message);
                 restoreListener();
             }
 
@@ -385,7 +385,7 @@ public final class IdiotTopComponent extends ToolTopComponent {
 
             desktop.open(dest);
         } catch (Exception ex) {
-            Message.error(Dict.Dialog.TITLE_IO_ERROR.toString(), Dict.Dialog.ERROR_CANT_OPEN_DIRECTORY.toString());
+            NbMessage.error(Dict.Dialog.TITLE_IO_ERROR.toString(), Dict.Dialog.ERROR_CANT_OPEN_DIRECTORY.toString());
         }
     }//GEN-LAST:event_openDirectoryButtonActionPerformed
 
