@@ -35,7 +35,7 @@ import org.openide.util.NbBundle;
 import org.openide.windows.TopComponent;
 import se.trixon.almond.nbp.dialogs.NbMessage;
 import se.trixon.almond.util.Dict;
-import se.trixon.almond.util.icon.Pict;
+import se.trixon.almond.util.icons.material.MaterialIcon;
 import se.trixon.toolbox.core.base.ToolTopComponent;
 import se.trixon.toolbox.idiot.task.Task;
 import se.trixon.toolbox.idiot.task.Task.DownloadListener;
@@ -78,23 +78,23 @@ public final class IdiotTopComponent extends ToolTopComponent {
     private void init() {
         mHelpId = "se.trixon.toolbox.idiot.about";
 
-        cronToggleButton.setIcon(Pict.Actions.DOWNLOAD_LATER.get(ICON_SIZE));
+        cronToggleButton.setIcon(MaterialIcon._Image.TIMER.get(ICON_SIZE, mIconColor));
         cronToggleButton.setToolTipText(Dict.DOWNLOADS_SCHEDULE.getString());
 
-        downloadButton.setIcon(Pict.Actions.DOWNLOAD.get(ICON_SIZE));
+        downloadButton.setIcon(MaterialIcon._File.FILE_DOWNLOAD.get(ICON_SIZE, mIconColor));
         downloadButton.setToolTipText(Dict.DOWNLOAD_NOW.getString());
 
-        openDirectoryButton.setIcon(Pict.Actions.FOLDER_DOWNLOADS.get(ICON_SIZE));
+        openDirectoryButton.setIcon(MaterialIcon._File.FOLDER_OPEN.get(ICON_SIZE, mIconColor));
         openDirectoryButton.setToolTipText(Dict.OPEN_DIRECTORY.getString());
 
-        addButton.setIcon(Pict.Actions.LIST_ADD.get(ICON_SIZE));
-        editButton.setIcon(Pict.Actions.DOCUMENT_EDIT.get(ICON_SIZE));
-        cloneButton.setIcon(Pict.Actions.EDIT_COPY.get(ICON_SIZE));
+        addButton.setIcon(MaterialIcon._Content.ADD.get(ICON_SIZE, mIconColor));
+        editButton.setIcon(MaterialIcon._Content.CREATE.get(ICON_SIZE, mIconColor));
+        cloneButton.setIcon(MaterialIcon._Content.CONTENT_COPY.get(ICON_SIZE, mIconColor));
         cloneButton.setToolTipText(Dict.CLONE.getString());
-        removeButton.setIcon(Pict.Actions.LIST_REMOVE.get(ICON_SIZE));
-        removeAllButton.setIcon(Pict.Actions.EDIT_DELETE.get(ICON_SIZE));
+        removeButton.setIcon(MaterialIcon._Content.REMOVE.get(ICON_SIZE, mIconColor));
+        removeAllButton.setIcon(MaterialIcon._Content.CLEAR.get(ICON_SIZE, mIconColor));
 
-        helpButton.setIcon(Pict.Actions.HELP_CONTENTS.get(ICON_SIZE));
+        helpButton.setIcon(MaterialIcon._Action.HELP_OUTLINE.get(ICON_SIZE, mIconColor));
         helpButton.setToolTipText(Dict.HELP.getString());
 
         tasksPanel.getList().addListSelectionListener((ListSelectionEvent e) -> {
